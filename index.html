@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Editor - Blender Style</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            background: #2b2b2b;
+            color: #ddd;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* Blender-like layout */
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Toolbar (Top) */
+        .toolbar {
+            background: #1e1e1e;
+            padding: 5px;
+            display: flex;
+            gap: 5px;
+            border-bottom: 1px solid #444;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .toolbar button, .toolbar input {
+            background: #333;
+            color: #ddd;
+            border: 1px solid #555;
+            padding: 5px 8px;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+
+        .toolbar button:hover {
+            background: #444;
+        }
+
+        /* Main workspace */
+        .workspace {
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+        }
+
+        /* Viewport (3D Canvas) */
+        #viewport {
+            flex: 1;
+            background: #1a1a1a;
+            position: relative;
+        }
+
+        #canvas-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Sidebar (Right Panel) */
+        .sidebar {
+            width: 250px;
+            background: #222;
+            border-left: 1px solid #444;
+            padding: 10px;
+            overflow-y: auto;
+        }
+
+        .sidebar h3 {
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .sidebar label {
+            display: block;
+            font-size: 11px;
+            color: #aaa;
+            margin: 5px 0;
+        }
+
+        .sidebar input[type="range"],
+        .sidebar input[type="color"],
+        .sidebar input[type="file"] {
+            width: 100%;
+            margin-bottom: 8px;
+        }
+
+        .sidebar button {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 6px;
+            width: 100%;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-top: 8px;
+            font-size: 12px;
+        }
+
+        .sidebar button:hover {
+            background: #0056b3;
+        }
+
+        /* Virtual buttons for mobile */
+        .mobile-controls {
+            display: none;
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            z-index: 100;
+            display: flex;
+            gap: 5px;
+        }
+
+        .mobile-controls button {
+            background: #333;
+            color: #ddd;
+            border: 1px solid #555;
+            padding: 8px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-controls button:hover {
+            background: #444;
+        }
+
+        /* Responsive design for Android */
+        @media (max-width: 768px) {
+            .workspace {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: 200px;
+                border-left: none;
+                border-top: 1px solid #444;
+            }
+
+            .toolbar {
+                padding: 3px;
+                gap: 3px;
+            }
+
+            .toolbar button, .toolbar input {
+                padding: 4px 6px;
+                font-size: 10px;
+            }
+
+            .mobile-controls {
+                display: flex;
+            }
+        }
+
+        /* For larger screens (PC/Laptop) */
+        @media (min-width: 769px) {
+            .sidebar {
+                width: 300px;
+            }
+
+            .toolbar button, .toolbar input {
+                padding: 5px 10px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <input type="file" id="model" accept=".gltf,.glb,.obj,.fbx">
+            <button onclick="switchMode('translate')">Translate (T)</button>
+            <button onclick="switchMode('rotate')">Rotate (R)</button>
+            <button onclick="switchMode('scale')">Scale (S)</button>
+            <button onclick="playAnimation()">Play Animation (P)</button>
+            <button onclick="downloadImage()">Download (D)</button>
+        </div>
+
+        <!-- Workspace -->
+        <div class="workspace">
+            <!-- Viewport -->
+            <div id="viewport">
+                <div id="canvas-container"></div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <h3>Properties</h3>
+                <div class="control-group">
+                    <label for="color">Color:</label>
+                    <input type="color" id="color" value="#ff0000">
+                </div>
+                <div class="control-group">
+                    <label for="positionX">Position X: <span id="positionX-value">0</span></label>
+                    <input type="range" id="positionX" min="-10" max="10" step="0.1" value="0">
+                </div>
+                <div class="control-group">
+                    <label for="positionY">Position Y: <span id="positionY-value">0</span></label>
+                    <input type="range" id="positionY" min="-10" max="10" step="0.1" value="0">
+                </div>
+                <div class="control-group">
+                    <label for="positionZ">Position Z: <span id="positionZ-value">0</span></label>
+                    <input type="range" id="positionZ" min="-10" max="10" step="0.1" value="0">
+                </div>
+                <div class="control-group">
+                    <label for="rotationX">Rotation X: <span id="rotationX-value">0</span>°</label>
+                    <input type="range" id="rotationX" min="0" max="360" value="0">
+                </div>
+                <div class="control-group">
+                    <label for="rotationY">Rotation Y: <span id="rotationY-value">0</span>°</label>
+                    <input type="range" id="rotationY" min="0" max="360" value="0">
+                </div>
+                <div class="control-group">
+                    <label for="rotationZ">Rotation Z: <span id="rotationZ-value">0</span>°</label>
+                    <input type="range" id="rotationZ" min="0" max="360" value="0">
+                </div>
+                <div class="control-group">
+                    <label for="scale">Scale: <span id="scale-value">1</span></label>
+                    <input type="range" id="scale" min="0.1" max="5" step="0.1" value="1">
+                </div>
+                <button onclick="downloadImage()">Download Render</button>
+            </div>
+        </div>
+
+        <!-- Mobile Controls -->
+        <div class="mobile-controls">
+            <button onclick="switchMode('translate')" title="Translate">T</button>
+            <button onclick="switchMode('rotate')" title="Rotate">R</button>
+            <button onclick="switchMode('scale')" title="Scale">S</button>
+            <button onclick="playAnimation()" title="Play Animation">P</button>
+            <button onclick="downloadImage()" title="Download">D</button>
+        </div>
+    </div>
+
+    <!-- Three.js and Loaders -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r147/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/loaders/OBJLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/loaders/FBXLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js"></script>
+    <script>
+        // Three.js setup
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        container.appendChild(renderer.domElement);
+
+        // Orbit controls with touch support
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.enableZoom = true;
+        controls.enablePan = true;
+
+        // Default cube
+        let currentObject = null;
+        let mixer = null; // For animations
+        const geometry = new THREE.BoxGeometry(1, 1, 1);
+        const material = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+        currentObject = new THREE.Mesh(geometry, material);
+        scene.add(currentObject);
+
+        // Add lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(5, 5, 5);
+        scene.add(directionalLight);
+
+        // Position camera
+        camera.position.z = 5;
+
+        // Controls
+        const modelInput = document.getElementById('model');
+        const colorInput = document.getElementById('color');
+        const positionXInput = document.getElementById('positionX');
+        const positionYInput = document.getElementById('positionY');
+        const positionZInput = document.getElementById('positionZ');
+        const rotationXInput = document.getElementById('rotationX');
+        const rotationYInput = document.getElementById('rotationY');
+        const rotationZInput = document.getElementById('rotationZ');
+        const scaleInput = document.getElementById('scale');
+        const positionXValue = document.getElementById('positionX-value');
+        const positionYValue = document.getElementById('positionY-value');
+        const positionZValue = document.getElementById('positionZ-value');
+        const rotationXValue = document.getElementById('rotationX-value');
+        const rotationYValue = document.getElementById('rotationY-value');
+        const rotationZValue = document.getElementById('rotationZ-value');
+        const scaleValue = document.getElementById('scale-value');
+
+        let currentMode = 'translate'; // Default mode
+
+        // Load 3D model
+        modelInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const extension = file.name.split('.').pop().toLowerCase();
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                if (extension === 'gltf' || extension === 'glb') {
+                    const loader = new THREE.GLTFLoader();
+                    loader.parse(e.target.result, '', (gltf) => {
+                        if (currentObject) scene.remove(currentObject);
+                        currentObject = gltf.scene;
+                        scene.add(currentObject);
+
+                        // Setup animation if available
+                        if (gltf.animations.length > 0) {
+                            mixer = new THREE.AnimationMixer(currentObject);
+                            const action = mixer.clipAction(gltf.animations[0]);
+                            action.play();
+                        }
+                    }, (error) => console.error('Error loading GLTF:', error));
+                } else if (extension === 'obj') {
+                    const loader = new THREE.OBJLoader();
+                    const obj = loader.parse(e.target.result);
+                    if (currentObject) scene.remove(currentObject);
+                    currentObject = obj;
+                    scene.add(currentObject);
+                } else if (extension === 'fbx') {
+                    const loader = new THREE.FBXLoader();
+                    loader.parse(e.target.result, (fbx) => {
+                        if (currentObject) scene.remove(currentObject);
+                        currentObject = fbx;
+                        scene.add(currentObject);
+
+                        // Setup animation if available
+                        if (fbx.animations.length > 0) {
+                            mixer = new THREE.AnimationMixer(currentObject);
+                            const action = mixer.clipAction(fbx.animations[0]);
+                            action.play();
+                        }
+                    }, (error) => console.error('Error loading FBX:', error));
+                }
+            };
+
+            if (extension === 'gltf' || extension === 'glb' || extension === 'fbx') {
+                reader.readAsArrayBuffer(file);
+            } else if (extension === 'obj') {
+                reader.readAsText(file);
+            }
+        });
+
+        // Update color
+        colorInput.addEventListener('input', () => {
+            if (currentObject) {
+                currentObject.traverse((child) => {
+                    if (child.isMesh) {
+                        child.material.color.set(colorInput.value);
+                    }
+                });
+            }
+        });
+
+        // Update position
+        positionXInput.addEventListener('input', () => {
+            if (currentObject) {
+                currentObject.position.x = parseFloat(positionXInput.value);
+                positionXValue.textContent = positionXInput.value;
+            }
+        });
+
+        positionYInput.addEventListener('input', () => {
+            if (currentObject) {
+                currentObject.position.y = parseFloat(positionYInput.value);
+                positionYValue.textContent = positionYInput.value;
+            }
+        });
+
+        positionZInput.addEventListener('input', () => {
+            if (currentObject) {
+                currentObject.position.z = parseFloat(positionZInput.value);
+                positionZValue.textContent = positionZInput.value;
+            }
+        });
+
+        // Update rotation
+        rotationXInput.addEventListener('input', () => {
+            if (currentObject) {
+                currentObject.rotation.x = (rotationXInput.value * Math.PI) / 180;
+                rotationXValue.textContent = rotationXInput.value;
+            }
+        });
+
+        rotationYInput.addEventListener('input', () => {
+            if (currentObject) {
+                currentObject.rotation.y = (rotationYInput.value * Math.PI) / 180;
+                rotationYValue.textContent = rotationYInput.value;
+            }
+        });
+
+        rotationZInput.addEventListener('input', () => {
+            if (currentObject) {
+                currentObject.rotation.z = (rotationZInput.value * Math.PI) / 180;
+                rotationZValue.textContent = rotationZInput.value;
+            }
+        });
+
+        // Update scale
+        scaleInput.addEventListener('input', () => {
+            if (currentObject) {
+                currentObject.scale.set(scaleInput.value, scaleInput.value, scaleInput.value);
+                scaleValue.textContent = scaleInput.value;
+            }
+        });
+
+        // Switch modes
+        function switchMode(mode) {
+            currentMode = mode;
+            alert(`Switched to ${mode} mode. Use the sliders to adjust.`);
+        }
+
+        // Play animation
+        function playAnimation() {
+            if (mixer) {
+                mixer.stopAllAction();
+                mixer.clipAction(mixer.getRoot().animations[0]).play();
+            } else {
+                alert('No animations available for this model.');
+            }
+        }
+
+        // Keyboard shortcuts for PC/Laptop
+        document.addEventListener('keydown', (event) => {
+            switch (event.key.toLowerCase()) {
+                case 't':
+                    switchMode('translate');
+                    break;
+                case 'r':
+                    switchMode('rotate');
+                    break;
+                case 's':
+                    switchMode('scale');
+                    break;
+                case 'p':
+                    playAnimation();
+                    break;
+                case 'd':
+                    downloadImage();
+                    break;
+            }
+        });
+
+        // Animation loop
+        const clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            if (mixer) mixer.update(clock.getDelta());
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = container.clientWidth / container.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container.clientWidth, container.clientHeight);
+        });
+
+        // Download render
+        function downloadImage() {
+            renderer.render(scene, camera);
+            const link = document.createElement('a');
+            link.download = '3d-render.png';
+            link.href = renderer.domElement.toDataURL('image/png');
+            link.click();
+        }
+    </script>
+</body>
+</html>
