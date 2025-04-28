@@ -338,11 +338,18 @@
         controls.enablePan = true;
 
         let currentObject = null;
-        let mixer = null;
-        const geometry = new THREE.BoxGeometry(1, 1, 1);
-        const material = new THREE.MeshStandardMaterial({ color: 0xff0000 });
-        currentObject = new THREE.Mesh(geometry, material);
-        scene.add(currentObject);
+let mixer = null;
+const loader = new THREE.GLTFLoader();
+loader.load('default-model.glb', (gltf) => {
+    console.log('Default model loaded:', gltf);
+    currentObject = gltf.scene;
+    scene.add(currentObject);
+    if (gltf.animations.length > 0) {
+        mixer = new THREE.AnimationMixer(currentObject);
+        const action = mixer.clipAction(gltf.animations[0]);
+        action.play();
+    }
+}, undefined, (error) => console.error('Error loading default model:', error));
 
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
         scene.add(ambientLight);
