@@ -498,20 +498,59 @@ loader.load('default-model.glb', (gltf) => {
         });
 
         function loadModelFromData(data) {
-            const extension = modelInput.files[0]?.name.split('.').pop().toLowerCase();
-            if (extension === 'gltf' || extension === 'glb') {
-                const loader = new THREE.GLTFLoader();
-                loader.parse(data, '', (gltf) => {
-                    if (currentObject) scene.remove(currentObject);
-                    currentObject = gltf.scene;
-                    scene.add(currentObject);
+        function loadModelFromData(data) {
+    const extension = modelInput.files[0]?.name.split('.').pop().toLowerCase();
+    console.log('Loading model with extension:', extension);
+    console.log('Data size:', data.byteLength);
 
-                    if (gltf.animations.length > 0) {
-                        mixer = new THREE.AnimationMixer(currentObject);
-                        const action = mixer.clipAction(gltf.animations[0]);
-                        action.play();
-                    }
-                }, (error) => console.error('Error loading GLTF:', error));
+    if (extension === 'gltf' || extension === 'glb') {
+        const loader = new THREE.GLTFLoader();
+        loader.parse(data, '', (gltf) => {
+            console.log('Model loaded successfully:', gltf);
+            if (currentObject) scene.remove(currentObject);
+            currentObject = gltf.scene;
+            scene.add(currentObject);
+
+            if (gltf.animations.length > 0) {
+                console.log('Animations found:', gltf.animations);
+                mixer = new THREE.AnimationMixer(currentObject);
+                const action = mixer.clipAction(gltf.animations[0]);
+                action.play();
+            }
+        }, (error) => {
+            console.error('Error loading GLTF:', error);
+            alert('Failed to load model. Check the console for details.');
+        });
+    } else if (extension === 'obj') {
+        console.log('Loading OBJ model');
+        const loader = new THREE.OBJLoader();
+        const obj = loader.parse(data);
+        if (currentObject) scene.remove(currentObject);
+        currentObject = obj;
+        scene.add(currentObject);
+    } else if (extension === 'fbx') {
+        console.log('Loading FBX model');
+        const loader = new THREE.FBXLoader();
+        loader.parse(data, (fbx) => {
+            console.log('FBX model loaded:', fbx);
+            if (currentObject) scene.remove(currentObject);
+            currentObject = fbx;
+            scene.add(currentObject);
+
+            if (fbx.animations.length > 0) {
+                console.log('Animations found:', fbx.animations);
+                mixer = new THREE.AnimationMixer(currentObject);
+                const action = mixer.clipAction(fbx.animations[0]);
+                action.play();
+            }
+        }, (error) => {
+            console.error('Error loading FBX:', error);
+            alert('Failed to load model. Check the console for details.');
+        });
+    } else {
+        alert('Unsupported file format. Please use .gltf, .glb, .obj, or .fbx.');
+    }
+}
             } else if (extension === 'obj') {
                 const loader = new THREE.OBJLoader();
                 const obj = loader.parse(data);
