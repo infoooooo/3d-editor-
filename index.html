@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Editor - Blender Style</title>
+    <title>3D Editor - Blockchain Distributed Rendering</title>
     <style>
         * {
             margin: 0;
@@ -22,14 +22,12 @@
             height: 100vh;
         }
 
-        /* Blender-like layout */
         .container {
             display: flex;
             flex-direction: column;
             height: 100vh;
         }
 
-        /* Toolbar (Top) */
         .toolbar {
             background: #1e1e1e;
             padding: 5px;
@@ -54,14 +52,12 @@
             background: #444;
         }
 
-        /* Main workspace */
         .workspace {
             flex: 1;
             display: flex;
             flex-direction: row;
         }
 
-        /* Viewport (3D Canvas) */
         #viewport {
             flex: 1;
             background: #1a1a1a;
@@ -73,7 +69,6 @@
             height: 100%;
         }
 
-        /* Sidebar (Right Panel) */
         .sidebar {
             width: 250px;
             background: #222;
@@ -118,7 +113,6 @@
             background: #0056b3;
         }
 
-        /* Virtual buttons for mobile */
         .mobile-controls {
             display: none;
             position: fixed;
@@ -148,7 +142,46 @@
             background: #444;
         }
 
-        /* Responsive design for Android */
+        /* Cookie Popup */
+        .cookie-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .cookie-content {
+            background: #333;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            max-width: 300px;
+        }
+
+        .cookie-content p {
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+
+        .cookie-content button {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .cookie-content button:hover {
+            background: #0056b3;
+        }
+
         @media (max-width: 768px) {
             .workspace {
                 flex-direction: column;
@@ -176,7 +209,6 @@
             }
         }
 
-        /* For larger screens (PC/Laptop) */
         @media (min-width: 769px) {
             .sidebar {
                 width: 300px;
@@ -190,6 +222,14 @@
     </style>
 </head>
 <body>
+    <!-- Cookie Popup -->
+    <div class="cookie-popup" id="cookiePopup">
+        <div class="cookie-content">
+            <p>We use your device's computing power for distributed 3D rendering. Do you agree to participate?</p>
+            <button onclick="acceptCookies()">Agree</button>
+        </div>
+    </div>
+
     <div class="container">
         <!-- Toolbar -->
         <div class="toolbar">
@@ -199,6 +239,8 @@
             <button onclick="switchMode('scale')">Scale (S)</button>
             <button onclick="playAnimation()">Play Animation (P)</button>
             <button onclick="downloadImage()">Download (D)</button>
+            <button onclick="connectToPeers()">Connect to Peers</button>
+            <button onclick="renderWithBlockchain()">Render with Blockchain</button>
         </div>
 
         <!-- Workspace -->
@@ -257,13 +299,30 @@
         </div>
     </div>
 
-    <!-- Three.js and Loaders -->
+    <!-- Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r147/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/loaders/GLTFLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/loaders/OBJLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/loaders/FBXLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+    <script src="https://cdn.ethers.io/lib/ethers-5.7.umd.min.js"></script>
+
     <script>
+        // Cookie Consent
+        function acceptCookies() {
+            document.cookie = "renderConsent=true; path=/; max-age=31536000"; // 1 year expiry
+            document.getElementById('cookiePopup').style.display = 'none';
+            initializePeer();
+        }
+
+        function checkCookieConsent() {
+            if (document.cookie.includes('renderConsent=true')) {
+                document.getElementById('cookiePopup').style.display = 'none';
+                initializePeer();
+            }
+        }
+
         // Three.js setup
         const container = document.getElementById('canvas-container');
         const scene = new THREE.Scene();
@@ -272,30 +331,123 @@
         renderer.setSize(container.clientWidth, container.clientHeight);
         container.appendChild(renderer.domElement);
 
-        // Orbit controls with touch support
         const controls = new THREE.OrbitControls(camera, renderer.domElement);
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
         controls.enableZoom = true;
         controls.enablePan = true;
 
-        // Default cube
         let currentObject = null;
-        let mixer = null; // For animations
+        let mixer = null;
         const geometry = new THREE.BoxGeometry(1, 1, 1);
         const material = new THREE.MeshStandardMaterial({ color: 0xff0000 });
         currentObject = new THREE.Mesh(geometry, material);
         scene.add(currentObject);
 
-        // Add lighting
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
         scene.add(ambientLight);
         const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
         directionalLight.position.set(5, 5, 5);
         scene.add(directionalLight);
 
-        // Position camera
         camera.position.z = 5;
+
+        // PeerJS for P2P
+        let peer = null;
+        let connections = [];
+        let modelData = null;
+
+        function initializePeer() {
+            peer = new Peer();
+            peer.on('open', (id) => {
+                console.log('My peer ID is: ' + id);
+            });
+
+            peer.on('connection', (conn) => {
+                connections.push(conn);
+                conn.on('data', (data) => {
+                    if (data.type === 'model') {
+                        modelData = data.model;
+                        loadModelFromData(modelData);
+                    } else if (data.type === 'render') {
+                        renderPart(data.part);
+                        conn.send({ type: 'renderResult', part: data.part, result: renderer.domElement.toDataURL('image/png') });
+                    }
+                });
+            });
+        }
+
+        function connectToPeers() {
+            const peerId = prompt('Enter peer ID to connect:');
+            if (peerId) {
+                const conn = peer.connect(peerId);
+                connections.push(conn);
+                conn.on('open', () => {
+                    console.log('Connected to peer: ' + peerId);
+                });
+            }
+        }
+
+        // Blockchain Integration (Ethereum)
+        let provider = null;
+        let signer = null;
+        let contract = null;
+
+        async function initializeBlockchain() {
+            if (window.ethereum) {
+                provider = new ethers.providers.Web3Provider(window.ethereum);
+                await provider.send("eth_requestAccounts", []);
+                signer = provider.getSigner();
+
+                // Simple smart contract ABI for recording rendering contributions
+                const contractABI = [
+                    "function recordRender(address user, string memory renderId) public",
+                    "function getRenderCount(address user) public view returns (uint)"
+                ];
+                const contractAddress = "0xYourContractAddress"; // Replace with your deployed contract address
+                contract = new ethers.Contract(contractAddress, contractABI, signer);
+            } else {
+                alert('Please install MetaMask to use blockchain features.');
+            }
+        }
+
+        async function renderWithBlockchain() {
+            if (!contract) {
+                await initializeBlockchain();
+            }
+            const renderId = Date.now().toString();
+            await contract.recordRender(await signer.getAddress(), renderId);
+            alert('Rendering recorded on blockchain!');
+            distributeRendering();
+        }
+
+        // Distributed Rendering
+        function distributeRendering() {
+            if (!modelData) {
+                alert('Please load a model first.');
+                return;
+            }
+
+            const parts = splitModelIntoParts(modelData, connections.length);
+            connections.forEach((conn, index) => {
+                conn.send({ type: 'render', part: parts[index] });
+            });
+        }
+
+        function splitModelIntoParts(model, numParts) {
+            // Simplified: Divide model into parts (e.g., by splitting vertices or frames)
+            const parts = [];
+            for (let i = 0; i < numParts; i++) {
+                parts.push({ id: i, data: model }); // Placeholder for actual splitting logic
+            }
+            return parts;
+        }
+
+        function renderPart(part) {
+            // Simplified: Render the part locally
+            loadModelFromData(part.data);
+            renderer.render(scene, camera);
+        }
 
         // Controls
         const modelInput = document.getElementById('model');
@@ -315,9 +467,8 @@
         const rotationZValue = document.getElementById('rotationZ-value');
         const scaleValue = document.getElementById('scale-value');
 
-        let currentMode = 'translate'; // Default mode
+        let currentMode = 'translate';
 
-        // Load 3D model
         modelInput.addEventListener('change', (event) => {
             const file = event.target.files[0];
             if (!file) return;
@@ -326,41 +477,11 @@
             const reader = new FileReader();
 
             reader.onload = (e) => {
-                if (extension === 'gltf' || extension === 'glb') {
-                    const loader = new THREE.GLTFLoader();
-                    loader.parse(e.target.result, '', (gltf) => {
-                        if (currentObject) scene.remove(currentObject);
-                        currentObject = gltf.scene;
-                        scene.add(currentObject);
-
-                        // Setup animation if available
-                        if (gltf.animations.length > 0) {
-                            mixer = new THREE.AnimationMixer(currentObject);
-                            const action = mixer.clipAction(gltf.animations[0]);
-                            action.play();
-                        }
-                    }, (error) => console.error('Error loading GLTF:', error));
-                } else if (extension === 'obj') {
-                    const loader = new THREE.OBJLoader();
-                    const obj = loader.parse(e.target.result);
-                    if (currentObject) scene.remove(currentObject);
-                    currentObject = obj;
-                    scene.add(currentObject);
-                } else if (extension === 'fbx') {
-                    const loader = new THREE.FBXLoader();
-                    loader.parse(e.target.result, (fbx) => {
-                        if (currentObject) scene.remove(currentObject);
-                        currentObject = fbx;
-                        scene.add(currentObject);
-
-                        // Setup animation if available
-                        if (fbx.animations.length > 0) {
-                            mixer = new THREE.AnimationMixer(currentObject);
-                            const action = mixer.clipAction(fbx.animations[0]);
-                            action.play();
-                        }
-                    }, (error) => console.error('Error loading FBX:', error));
-                }
+                modelData = e.target.result;
+                loadModelFromData(modelData);
+                connections.forEach(conn => {
+                    conn.send({ type: 'model', model: modelData });
+                });
             };
 
             if (extension === 'gltf' || extension === 'glb' || extension === 'fbx') {
@@ -370,7 +491,43 @@
             }
         });
 
-        // Update color
+        function loadModelFromData(data) {
+            const extension = modelInput.files[0]?.name.split('.').pop().toLowerCase();
+            if (extension === 'gltf' || extension === 'glb') {
+                const loader = new THREE.GLTFLoader();
+                loader.parse(data, '', (gltf) => {
+                    if (currentObject) scene.remove(currentObject);
+                    currentObject = gltf.scene;
+                    scene.add(currentObject);
+
+                    if (gltf.animations.length > 0) {
+                        mixer = new THREE.AnimationMixer(currentObject);
+                        const action = mixer.clipAction(gltf.animations[0]);
+                        action.play();
+                    }
+                }, (error) => console.error('Error loading GLTF:', error));
+            } else if (extension === 'obj') {
+                const loader = new THREE.OBJLoader();
+                const obj = loader.parse(data);
+                if (currentObject) scene.remove(currentObject);
+                currentObject = obj;
+                scene.add(currentObject);
+            } else if (extension === 'fbx') {
+                const loader = new THREE.FBXLoader();
+                loader.parse(data, (fbx) => {
+                    if (currentObject) scene.remove(currentObject);
+                    currentObject = fbx;
+                    scene.add(currentObject);
+
+                    if (fbx.animations.length > 0) {
+                        mixer = new THREE.AnimationMixer(currentObject);
+                        const action = mixer.clipAction(fbx.animations[0]);
+                        action.play();
+                    }
+                }, (error) => console.error('Error loading FBX:', error));
+            }
+        }
+
         colorInput.addEventListener('input', () => {
             if (currentObject) {
                 currentObject.traverse((child) => {
@@ -381,7 +538,6 @@
             }
         });
 
-        // Update position
         positionXInput.addEventListener('input', () => {
             if (currentObject) {
                 currentObject.position.x = parseFloat(positionXInput.value);
@@ -403,7 +559,6 @@
             }
         });
 
-        // Update rotation
         rotationXInput.addEventListener('input', () => {
             if (currentObject) {
                 currentObject.rotation.x = (rotationXInput.value * Math.PI) / 180;
@@ -425,7 +580,6 @@
             }
         });
 
-        // Update scale
         scaleInput.addEventListener('input', () => {
             if (currentObject) {
                 currentObject.scale.set(scaleInput.value, scaleInput.value, scaleInput.value);
@@ -433,13 +587,11 @@
             }
         });
 
-        // Switch modes
         function switchMode(mode) {
             currentMode = mode;
             alert(`Switched to ${mode} mode. Use the sliders to adjust.`);
         }
 
-        // Play animation
         function playAnimation() {
             if (mixer) {
                 mixer.stopAllAction();
@@ -449,7 +601,6 @@
             }
         }
 
-        // Keyboard shortcuts for PC/Laptop
         document.addEventListener('keydown', (event) => {
             switch (event.key.toLowerCase()) {
                 case 't':
@@ -470,7 +621,6 @@
             }
         });
 
-        // Animation loop
         const clock = new THREE.Clock();
         function animate() {
             requestAnimationFrame(animate);
@@ -480,14 +630,12 @@
         }
         animate();
 
-        // Handle window resize
         window.addEventListener('resize', () => {
             camera.aspect = container.clientWidth / container.clientHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(container.clientWidth, container.clientHeight);
         });
 
-        // Download render
         function downloadImage() {
             renderer.render(scene, camera);
             const link = document.createElement('a');
@@ -495,6 +643,9 @@
             link.href = renderer.domElement.toDataURL('image/png');
             link.click();
         }
+
+        // Initialize
+        checkCookieConsent();
     </script>
 </body>
 </html>
