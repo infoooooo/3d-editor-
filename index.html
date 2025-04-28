@@ -142,7 +142,6 @@
             background: #444;
         }
 
-        /* Cookie Popup */
         .cookie-popup {
             position: fixed;
             top: 0;
@@ -180,6 +179,19 @@
 
         .cookie-content button:hover {
             background: #0056b3;
+        }
+
+        .loading-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: none;
+            z-index: 100;
         }
 
         @media (max-width: 768px) {
@@ -222,7 +234,6 @@
     </style>
 </head>
 <body>
-    <!-- Cookie Popup -->
     <div class="cookie-popup" id="cookiePopup">
         <div class="cookie-content">
             <p>We use your device's computing power for distributed 3D rendering. Do you agree to participate?</p>
@@ -231,7 +242,6 @@
     </div>
 
     <div class="container">
-        <!-- Toolbar -->
         <div class="toolbar">
             <input type="file" id="model" accept=".gltf,.glb,.obj,.fbx">
             <button onclick="switchMode('translate')">Translate (T)</button>
@@ -243,14 +253,12 @@
             <button onclick="renderWithBlockchain()">Render with Blockchain</button>
         </div>
 
-        <!-- Workspace -->
         <div class="workspace">
-            <!-- Viewport -->
             <div id="viewport">
                 <div id="canvas-container"></div>
+                <div class="loading-message" id="loadingMessage">Loading model...</div>
             </div>
 
-            <!-- Sidebar -->
             <div class="sidebar">
                 <h3>Properties</h3>
                 <div class="control-group">
@@ -289,7 +297,6 @@
             </div>
         </div>
 
-        <!-- Mobile Controls -->
         <div class="mobile-controls">
             <button onclick="switchMode('translate')" title="Translate">T</button>
             <button onclick="switchMode('rotate')" title="Rotate">R</button>
@@ -299,72 +306,313 @@
         </div>
     </div>
 
-    <!-- Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r147/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/loaders/GLTFLoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/loaders/OBJLoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/loaders/FBXLoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js"></script>
-    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
-    <script src="https://cdn.ethers.io/lib/ethers-5.7.umd.min.js"></script>
+    <script>
+        window.THREE = window.THREE || {};
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r147/three.min.js" onload="console.log('Three.js loaded')" onerror="alert('Failed to load Three.js. Please check your internet connection.')"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/loaders/GLTFLoader.js" onload="console.log('GLTFLoader loaded')" onerror="console.error('Failed to load GLTFLoader')"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/loaders/OBJLoader.js" onload="console.log('OBJLoader loaded')" onerror="console.error('Failed to load OBJLoader')"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/loaders/FBXLoader.js" onload="console.log('FBXLoader loaded')" onerror="console.error('Failed to load FBXLoader')"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js" onload="console.log('OrbitControls loaded')" onerror="console.error('Failed to load OrbitControls')"></script>
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js" onload="console.log('PeerJS loaded')" onerror="console.error('Failed to load PeerJS')"></script>
+    <script src="https://cdn.ethers.io/lib/ethers-5.7.umd.min.js" onload="console.log('Ethers.js loaded')" onerror="console.error('Failed to load Ethers.js')"></script>
 
     <script>
-        // Cookie Consent
-        function acceptCookies() {
-            document.cookie = "renderConsent=true; path=/; max-age=31536000"; // 1 year expiry
-            document.getElementById('cookiePopup').style.display = 'none';
-            initializePeer();
-        }
+        function initializeThreeJS() {
+            if (typeof THREE === 'undefined') {
+                console.error('Three.js not loaded yet. Retrying in 1 second...');
+                setTimeout(initializeThreeJS, 1000);
+                return;
+            }
 
-        function checkCookieConsent() {
-            if (document.cookie.includes('renderConsent=true')) {
-                document.getElementById('cookiePopup').style.display = 'none';
-                initializePeer();
+            const container = document.getElementById('canvas-container');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            container.appendChild(renderer.domElement);
+
+            const controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.enableZoom = true;
+            controls.enablePan = true;
+
+            let currentObject = null;
+            let mixer = null;
+
+            function loadDefaultModel() {
+                const loader = new THREE.GLTFLoader();
+                loader.load('default-character.glb', (gltf) => {
+                    console.log('Default model loaded:', gltf);
+                    currentObject = gltf.scene;
+                    scene.add(currentObject);
+                    if (gltf.animations.length > 0) {
+                        mixer = new THREE.AnimationMixer(currentObject);
+                        const action = mixer.clipAction(gltf.animations[0]);
+                        action.play();
+                    }
+                }, undefined, (error) => {
+                    console.error('Error loading default model:', error);
+                    alert('Failed to load default model. Loading fallback red cube.');
+
+                    const geometry = new THREE.BoxGeometry(1, 1, 1);
+                    const material = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+                    currentObject = new THREE.Mesh(geometry, material);
+                    scene.add(currentObject);
+                    console.log('Loaded fallback red cube');
+                });
+            }
+
+            loadDefaultModel();
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambientLight);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(5, 5, 5);
+            scene.add(directionalLight);
+
+            camera.position.z = 5;
+
+            const modelInput = document.getElementById('model');
+            const colorInput = document.getElementById('color');
+            const positionXInput = document.getElementById('positionX');
+            const positionYInput = document.getElementById('positionY');
+            const positionZInput = document.getElementById('positionZ');
+            const rotationXInput = document.getElementById('rotationX');
+            const rotationYInput = document.getElementById('rotationY');
+            const rotationZInput = document.getElementById('rotationZ');
+            const scaleInput = document.getElementById('scale');
+            const positionXValue = document.getElementById('positionX-value');
+            const positionYValue = document.getElementById('positionY-value');
+            const positionZValue = document.getElementById('positionZ-value');
+            const rotationXValue = document.getElementById('rotationX-value');
+            const rotationYValue = document.getElementById('rotationY-value');
+            const rotationZValue = document.getElementById('rotationZ-value');
+            const scaleValue = document.getElementById('scale-value');
+            const loadingMessage = document.getElementById('loadingMessage');
+
+            let currentMode = 'translate';
+
+            modelInput.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                loadingMessage.style.display = 'block';
+                const extension = file.name.split('.').pop().toLowerCase();
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    modelData = e.target.result;
+                    loadModelFromData(modelData);
+                    connections.forEach(conn => {
+                        conn.send({ type: 'model', model: modelData });
+                    });
+                };
+
+                reader.onerror = () => {
+                    loadingMessage.style.display = 'none';
+                    alert('Failed to read the file. Please try another file.');
+                };
+
+                if (extension === 'gltf' || extension === 'glb' || extension === 'fbx') {
+                    reader.readAsArrayBuffer(file);
+                } else if (extension === 'obj') {
+                    reader.readAsText(file);
+                }
+            });
+
+            function loadModelFromData(data) {
+                const extension = modelInput.files[0]?.name.split('.').pop().toLowerCase();
+                console.log('Loading model with extension:', extension);
+                console.log('Data size:', data.byteLength);
+
+                if (extension === 'gltf' || extension === 'glb') {
+                    const loader = new THREE.GLTFLoader();
+                    loader.parse(data, '', (gltf) => {
+                        console.log('Model loaded successfully:', gltf);
+                        if (currentObject) scene.remove(currentObject);
+                        currentObject = gltf.scene;
+                        scene.add(currentObject);
+
+                        if (gltf.animations.length > 0) {
+                            console.log('Animations found:', gltf.animations);
+                            mixer = new THREE.AnimationMixer(currentObject);
+                            const action = mixer.clipAction(gltf.animations[0]);
+                            action.play();
+                        }
+                        loadingMessage.style.display = 'none';
+                        alert('Model loaded successfully!');
+                    }, (error) => {
+                        console.error('Error loading GLTF:', error);
+                        loadingMessage.style.display = 'none';
+                        alert('Failed to load model. Check the console for details.');
+                    });
+                } else if (extension === 'obj') {
+                    console.log('Loading OBJ model');
+                    const loader = new THREE.OBJLoader();
+                    const obj = loader.parse(data);
+                    if (currentObject) scene.remove(currentObject);
+                    currentObject = obj;
+                    scene.add(currentObject);
+                    loadingMessage.style.display = 'none';
+                    alert('Model loaded successfully!');
+                } else if (extension === 'fbx') {
+                    console.log('Loading FBX model');
+                    const loader = new THREE.FBXLoader();
+                    loader.parse(data, (fbx) => {
+                        console.log('FBX model loaded:', fbx);
+                        if (currentObject) scene.remove(currentObject);
+                        currentObject = fbx;
+                        scene.add(currentObject);
+
+                        if (fbx.animations.length > 0) {
+                            console.log('Animations found:', fbx.animations);
+                            mixer = new THREE.AnimationMixer(currentObject);
+                            const action = mixer.clipAction(fbx.animations[0]);
+                            action.play();
+                        }
+                        loadingMessage.style.display = 'none';
+                        alert('Model loaded successfully!');
+                    }, (error) => {
+                        console.error('Error loading FBX:', error);
+                        loadingMessage.style.display = 'none';
+                        alert('Failed to load model. Check the console for details.');
+                    });
+                } else {
+                    loadingMessage.style.display = 'none';
+                    alert('Unsupported file format. Please use .gltf, .glb, .obj, or .fbx.');
+                }
+            }
+
+            colorInput.addEventListener('input', () => {
+                if (currentObject) {
+                    currentObject.traverse((child) => {
+                        if (child.isMesh) {
+                            child.material.color.set(colorInput.value);
+                        }
+                    });
+                }
+            });
+
+            positionXInput.addEventListener('input', () => {
+                if (currentObject) {
+                    currentObject.position.x = parseFloat(positionXInput.value);
+                    positionXValue.textContent = positionXInput.value;
+                }
+            });
+
+            positionYInput.addEventListener('input', () => {
+                if (currentObject) {
+                    currentObject.position.y = parseFloat(positionYInput.value);
+                    positionYValue.textContent = positionYInput.value;
+                }
+            });
+
+            positionZInput.addEventListener('input', () => {
+                if (currentObject) {
+                    currentObject.position.z = parseFloat(positionZInput.value);
+                    positionZValue.textContent = positionZInput.value;
+                }
+            });
+
+            rotationXInput.addEventListener('input', () => {
+                if (currentObject) {
+                    currentObject.rotation.x = (rotationXInput.value * Math.PI) / 180;
+                    rotationXValue.textContent = rotationXInput.value;
+                }
+            });
+
+            rotationYInput.addEventListener('input', () => {
+                if (currentObject) {
+                    currentObject.rotation.y = (rotationYInput.value * Math.PI) / 180;
+                    rotationYValue.textContent = rotationYInput.value;
+                }
+            });
+
+            rotationZInput.addEventListener('input', () => {
+                if (currentObject) {
+                    currentObject.rotation.z = (rotationZInput.value * Math.PI) / 180;
+                    rotationZValue.textContent = rotationZInput.value;
+                }
+            });
+
+            scaleInput.addEventListener('input', () => {
+                if (currentObject) {
+                    currentObject.scale.set(scaleInput.value, scaleInput.value, scaleInput.value);
+                    scaleValue.textContent = scaleInput.value;
+                }
+            });
+
+            function switchMode(mode) {
+                currentMode = mode;
+                alert(`Switched to ${mode} mode. Use the sliders to adjust.`);
+            }
+
+            function playAnimation() {
+                if (mixer) {
+                    mixer.stopAllAction();
+                    mixer.clipAction(mixer.getRoot().animations[0]).play();
+                } else {
+                    alert('No animations available for this model.');
+                }
+            }
+
+            document.addEventListener('keydown', (event) => {
+                switch (event.key.toLowerCase()) {
+                    case 't':
+                        switchMode('translate');
+                        break;
+                    case 'r':
+                        switchMode('rotate');
+                        break;
+                    case 's':
+                        switchMode('scale');
+                        break;
+                    case 'p':
+                        playAnimation();
+                        break;
+                    case 'd':
+                        downloadImage();
+                        break;
+                }
+            });
+
+            const clock = new THREE.Clock();
+            function animate() {
+                requestAnimationFrame(animate);
+                if (mixer) mixer.update(clock.getDelta());
+                controls.update();
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+
+            function downloadImage() {
+                renderer.render(scene, camera);
+                const link = document.createElement('a');
+                link.download = '3d-render.png';
+                link.href = renderer.domElement.toDataURL('image/png');
+                link.click();
             }
         }
 
-        // Three.js setup
-        const container = document.getElementById('canvas-container');
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(container.clientWidth, container.clientHeight);
-        container.appendChild(renderer.domElement);
-
-        const controls = new THREE.OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true;
-        controls.dampingFactor = 0.05;
-        controls.enableZoom = true;
-        controls.enablePan = true;
-
-        let currentObject = null;
-let mixer = null;
-const loader = new THREE.GLTFLoader();
-loader.load('default-model.glb', (gltf) => {
-    console.log('Default model loaded:', gltf);
-    currentObject = gltf.scene;
-    scene.add(currentObject);
-    if (gltf.animations.length > 0) {
-        mixer = new THREE.AnimationMixer(currentObject);
-        const action = mixer.clipAction(gltf.animations[0]);
-        action.play();
-    }
-}, undefined, (error) => console.error('Error loading default model:', error));
-
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-        scene.add(ambientLight);
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-        directionalLight.position.set(5, 5, 5);
-        scene.add(directionalLight);
-
-        camera.position.z = 5;
-
-        // PeerJS for P2P
         let peer = null;
         let connections = [];
         let modelData = null;
 
         function initializePeer() {
+            if (typeof Peer === 'undefined') {
+                console.error('PeerJS not loaded yet. Retrying in 1 second...');
+                setTimeout(initializePeer, 1000);
+                return;
+            }
+
             peer = new Peer();
             peer.on('open', (id) => {
                 console.log('My peer ID is: ' + id);
@@ -385,6 +633,10 @@ loader.load('default-model.glb', (gltf) => {
         }
 
         function connectToPeers() {
+            if (!peer) {
+                alert('PeerJS not initialized. Please wait or refresh the page.');
+                return;
+            }
             const peerId = prompt('Enter peer ID to connect:');
             if (peerId) {
                 const conn = peer.connect(peerId);
@@ -395,23 +647,27 @@ loader.load('default-model.glb', (gltf) => {
             }
         }
 
-        // Blockchain Integration (Ethereum)
         let provider = null;
         let signer = null;
         let contract = null;
 
         async function initializeBlockchain() {
+            if (typeof ethers === 'undefined') {
+                console.error('Ethers.js not loaded yet. Retrying in 1 second...');
+                setTimeout(initializeBlockchain, 1000);
+                return;
+            }
+
             if (window.ethereum) {
                 provider = new ethers.providers.Web3Provider(window.ethereum);
                 await provider.send("eth_requestAccounts", []);
                 signer = provider.getSigner();
 
-                // Simple smart contract ABI for recording rendering contributions
                 const contractABI = [
                     "function recordRender(address user, string memory renderId) public",
                     "function getRenderCount(address user) public view returns (uint)"
                 ];
-                const contractAddress = "0xYourContractAddress"; // Replace with your deployed contract address
+                const contractAddress = "0xYourContractAddress";
                 contract = new ethers.Contract(contractAddress, contractABI, signer);
             } else {
                 alert('Please install MetaMask to use blockchain features.');
@@ -428,7 +684,6 @@ loader.load('default-model.glb', (gltf) => {
             distributeRendering();
         }
 
-        // Distributed Rendering
         function distributeRendering() {
             if (!modelData) {
                 alert('Please load a model first.');
@@ -442,255 +697,33 @@ loader.load('default-model.glb', (gltf) => {
         }
 
         function splitModelIntoParts(model, numParts) {
-            // Simplified: Divide model into parts (e.g., by splitting vertices or frames)
             const parts = [];
             for (let i = 0; i < numParts; i++) {
-                parts.push({ id: i, data: model }); // Placeholder for actual splitting logic
+                parts.push({ id: i, data: model });
             }
             return parts;
         }
 
         function renderPart(part) {
-            // Simplified: Render the part locally
             loadModelFromData(part.data);
             renderer.render(scene, camera);
         }
 
-        // Controls
-        const modelInput = document.getElementById('model');
-        const colorInput = document.getElementById('color');
-        const positionXInput = document.getElementById('positionX');
-        const positionYInput = document.getElementById('positionY');
-        const positionZInput = document.getElementById('positionZ');
-        const rotationXInput = document.getElementById('rotationX');
-        const rotationYInput = document.getElementById('rotationY');
-        const rotationZInput = document.getElementById('rotationZ');
-        const scaleInput = document.getElementById('scale');
-        const positionXValue = document.getElementById('positionX-value');
-        const positionYValue = document.getElementById('positionY-value');
-        const positionZValue = document.getElementById('positionZ-value');
-        const rotationXValue = document.getElementById('rotationX-value');
-        const rotationYValue = document.getElementById('rotationY-value');
-        const rotationZValue = document.getElementById('rotationZ-value');
-        const scaleValue = document.getElementById('scale-value');
+        function acceptCookies() {
+            document.cookie = "renderConsent=true; path=/; max-age=31536000";
+            document.getElementById('cookiePopup').style.display = 'none';
+            initializePeer();
+        }
 
-        let currentMode = 'translate';
-
-        modelInput.addEventListener('change', (event) => {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const extension = file.name.split('.').pop().toLowerCase();
-            const reader = new FileReader();
-
-            reader.onload = (e) => {
-                modelData = e.target.result;
-                loadModelFromData(modelData);
-                connections.forEach(conn => {
-                    conn.send({ type: 'model', model: modelData });
-                });
-            };
-
-            if (extension === 'gltf' || extension === 'glb' || extension === 'fbx') {
-                reader.readAsArrayBuffer(file);
-            } else if (extension === 'obj') {
-                reader.readAsText(file);
-            }
-        });
-
-        function loadModelFromData(data) {
-    const extension = modelInput.files[0]?.name.split('.').pop().toLowerCase();
-    console.log('Loading model with extension:', extension);
-    console.log('Data size:', data.byteLength);
-
-    if (extension === 'gltf' || extension === 'glb') {
-        const loader = new THREE.GLTFLoader();
-        loader.parse(data, '', (gltf) => {
-            console.log('Model loaded successfully:', gltf);
-            if (currentObject) scene.remove(currentObject);
-            currentObject = gltf.scene;
-            scene.add(currentObject);
-
-            if (gltf.animations.length > 0) {
-                console.log('Animations found:', gltf.animations);
-                mixer = new THREE.AnimationMixer(currentObject);
-                const action = mixer.clipAction(gltf.animations[0]);
-                action.play();
-            }
-        }, (error) => {
-            console.error('Error loading GLTF:', error);
-            alert('Failed to load model. Check the console for details.');
-        });
-    } else if (extension === 'obj') {
-        console.log('Loading OBJ model');
-        const loader = new THREE.OBJLoader();
-        const obj = loader.parse(data);
-        if (currentObject) scene.remove(currentObject);
-        currentObject = obj;
-        scene.add(currentObject);
-    } else if (extension === 'fbx') {
-        console.log('Loading FBX model');
-        const loader = new THREE.FBXLoader();
-        loader.parse(data, (fbx) => {
-            console.log('FBX model loaded:', fbx);
-            if (currentObject) scene.remove(currentObject);
-            currentObject = fbx;
-            scene.add(currentObject);
-
-            if (fbx.animations.length > 0) {
-                console.log('Animations found:', fbx.animations);
-                mixer = new THREE.AnimationMixer(currentObject);
-                const action = mixer.clipAction(fbx.animations[0]);
-                action.play();
-            }
-        }, (error) => {
-            console.error('Error loading FBX:', error);
-            alert('Failed to load model. Check the console for details.');
-        });
-    } else {
-        alert('Unsupported file format. Please use .gltf, .glb, .obj, or .fbx.');
-    }
-}
-            } else if (extension === 'obj') {
-                const loader = new THREE.OBJLoader();
-                const obj = loader.parse(data);
-                if (currentObject) scene.remove(currentObject);
-                currentObject = obj;
-                scene.add(currentObject);
-            } else if (extension === 'fbx') {
-                const loader = new THREE.FBXLoader();
-                loader.parse(data, (fbx) => {
-                    if (currentObject) scene.remove(currentObject);
-                    currentObject = fbx;
-                    scene.add(currentObject);
-
-                    if (fbx.animations.length > 0) {
-                        mixer = new THREE.AnimationMixer(currentObject);
-                        const action = mixer.clipAction(fbx.animations[0]);
-                        action.play();
-                    }
-                }, (error) => console.error('Error loading FBX:', error));
+        function checkCookieConsent() {
+            if (document.cookie.includes('renderConsent=true')) {
+                document.getElementById('cookiePopup').style.display = 'none';
+                initializePeer();
             }
         }
 
-        colorInput.addEventListener('input', () => {
-            if (currentObject) {
-                currentObject.traverse((child) => {
-                    if (child.isMesh) {
-                        child.material.color.set(colorInput.value);
-                    }
-                });
-            }
-        });
-
-        positionXInput.addEventListener('input', () => {
-            if (currentObject) {
-                currentObject.position.x = parseFloat(positionXInput.value);
-                positionXValue.textContent = positionXInput.value;
-            }
-        });
-
-        positionYInput.addEventListener('input', () => {
-            if (currentObject) {
-                currentObject.position.y = parseFloat(positionYInput.value);
-                positionYValue.textContent = positionYInput.value;
-            }
-        });
-
-        positionZInput.addEventListener('input', () => {
-            if (currentObject) {
-                currentObject.position.z = parseFloat(positionZInput.value);
-                positionZValue.textContent = positionZInput.value;
-            }
-        });
-
-        rotationXInput.addEventListener('input', () => {
-            if (currentObject) {
-                currentObject.rotation.x = (rotationXInput.value * Math.PI) / 180;
-                rotationXValue.textContent = rotationXInput.value;
-            }
-        });
-
-        rotationYInput.addEventListener('input', () => {
-            if (currentObject) {
-                currentObject.rotation.y = (rotationYInput.value * Math.PI) / 180;
-                rotationYValue.textContent = rotationYInput.value;
-            }
-        });
-
-        rotationZInput.addEventListener('input', () => {
-            if (currentObject) {
-                currentObject.rotation.z = (rotationZInput.value * Math.PI) / 180;
-                rotationZValue.textContent = rotationZInput.value;
-            }
-        });
-
-        scaleInput.addEventListener('input', () => {
-            if (currentObject) {
-                currentObject.scale.set(scaleInput.value, scaleInput.value, scaleInput.value);
-                scaleValue.textContent = scaleInput.value;
-            }
-        });
-
-        function switchMode(mode) {
-            currentMode = mode;
-            alert(`Switched to ${mode} mode. Use the sliders to adjust.`);
-        }
-
-        function playAnimation() {
-            if (mixer) {
-                mixer.stopAllAction();
-                mixer.clipAction(mixer.getRoot().animations[0]).play();
-            } else {
-                alert('No animations available for this model.');
-            }
-        }
-
-        document.addEventListener('keydown', (event) => {
-            switch (event.key.toLowerCase()) {
-                case 't':
-                    switchMode('translate');
-                    break;
-                case 'r':
-                    switchMode('rotate');
-                    break;
-                case 's':
-                    switchMode('scale');
-                    break;
-                case 'p':
-                    playAnimation();
-                    break;
-                case 'd':
-                    downloadImage();
-                    break;
-            }
-        });
-
-        const clock = new THREE.Clock();
-        function animate() {
-            requestAnimationFrame(animate);
-            if (mixer) mixer.update(clock.getDelta());
-            controls.update();
-            renderer.render(scene, camera);
-        }
-        animate();
-
-        window.addEventListener('resize', () => {
-            camera.aspect = container.clientWidth / container.clientHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(container.clientWidth, container.clientHeight);
-        });
-
-        function downloadImage() {
-            renderer.render(scene, camera);
-            const link = document.createElement('a');
-            link.download = '3d-render.png';
-            link.href = renderer.domElement.toDataURL('image/png');
-            link.click();
-        }
-
-        // Initialize
         checkCookieConsent();
+        initializeThreeJS();
     </script>
 </body>
 </html>
