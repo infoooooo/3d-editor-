@@ -1,453 +1,406 @@
-<html class="scroll-smooth" lang="id">
+<html lang="en">
  <head>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1" name="viewport"/>
   <title>
-   BCA - Bank Central Asia
+   Tap Tup - GoTube Style YouTube Client
   </title>
   <script src="https://cdn.tailwindcss.com">
   </script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&amp;display=swap" rel="stylesheet"/>
   <style>
    body {
-      font-family: 'Inter', sans-serif;
+      font-family: "Roboto", sans-serif;
+      background-color: #121212;
+      color: #fff;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    /* Scrollbar for video list */
+    #video-list::-webkit-scrollbar {
+      height: 6px;
+    }
+    #video-list::-webkit-scrollbar-thumb {
+      background-color: #ff0000;
+      border-radius: 3px;
+    }
+    /* Hide scrollbar for Firefox */
+    #video-list {
+      scrollbar-width: thin;
+      scrollbar-color: #ff0000 transparent;
+    }
+    /* Line clamp for titles */
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    /* Bottom nav active icon color */
+    .active-icon {
+      color: #ff0000 !important;
     }
   </style>
  </head>
- <body class="bg-white text-gray-800">
-  <!-- Top Bar -->
-  <div class="bg-[#0033A0] text-white text-sm py-1 px-4 flex justify-between items-center">
-   <div class="flex space-x-4">
-    <a class="hover:underline" href="https://www.bca.co.id/bca-mobile" target="_blank" rel="noopener noreferrer">
-     BCA Mobile
-    </a>
-    <a class="hover:underline" href="https://www.klikbca.com" target="_blank" rel="noopener noreferrer">
-     KlikBCA
-    </a>
-    <a class="hover:underline" href="https://www.bca.co.id/halo-bca" target="_blank" rel="noopener noreferrer">
-     Halo BCA
-    </a>
-    <a class="hover:underline" href="https://www.bca.co.id/info-bca" target="_blank" rel="noopener noreferrer">
-     Info BCA
-    </a>
+ <body class="flex flex-col h-screen">
+  <!-- Header -->
+  <header class="flex items-center justify-between bg-black px-4 py-2 shadow-md sticky top-0 z-50">
+   <div class="flex items-center space-x-2">
+    <img alt="Red play button logo for Tap Tup app like GoTube" class="w-8 h-6" height="24" src="https://storage.googleapis.com/a1aa/image/c152a1df-8237-4b17-8b25-d277372abd6d.jpg" width="32"/>
+    <h1 class="text-xl font-bold select-none text-white">
+     Tap Tup
+    </h1>
    </div>
-   <div class="flex space-x-4 items-center">
-    <a class="hover:underline flex items-center" href="https://www.bca.co.id/bahasa" target="_blank" rel="noopener noreferrer">
-     <i class="fas fa-globe mr-1">
-     </i>
-     Bahasa
-    </a>
-    <a class="hover:underline flex items-center" href="https://www.klikbca.com/authentication.do" target="_blank" rel="noopener noreferrer">
-     <i class="fas fa-user-circle mr-1">
-     </i>
-     Login
-    </a>
-   </div>
-  </div>
-  <!-- Header / Navbar -->
-  <header class="bg-white shadow-md sticky top-0 z-50">
-   <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
-    <a class="flex items-center space-x-3" href="https://www.bca.co.id" target="_blank" rel="noopener noreferrer">
-     <img alt="Logo Bank Central Asia BCA warna biru dengan tulisan BCA putih" class="h-10 w-auto" height="40" loading="lazy" src="https://storage.googleapis.com/a1aa/image/3f6762b0-2a17-4f6c-b5e3-ad2bad8d8401.jpg" width="120"/>
-    </a>
-    <nav class="hidden md:flex space-x-8 font-semibold text-gray-700">
-     <a class="hover:text-[#0033A0] transition" href="https://www.bca.co.id/produk-layanan" target="_blank" rel="noopener noreferrer">
-      Produk &amp; Layanan
-     </a>
-     <a class="hover:text-[#0033A0] transition" href="https://www.bca.co.id/digital-banking" target="_blank" rel="noopener noreferrer">
-      Digital Banking
-     </a>
-     <a class="hover:text-[#0033A0] transition" href="https://www.bca.co.id/info-bca" target="_blank" rel="noopener noreferrer">
-      Info BCA
-     </a>
-     <a class="hover:text-[#0033A0] transition" href="https://www.bca.co.id/bantuan" target="_blank" rel="noopener noreferrer">
-      Bantuan
-     </a>
-    </nav>
-    <div class="hidden md:flex space-x-4">
-     <a class="text-[#0033A0] font-semibold border border-[#0033A0] px-4 py-1 rounded hover:bg-[#0033A0] hover:text-white transition" href="https://www.klikbca.com/authentication.do" target="_blank" rel="noopener noreferrer">
-      Login
-     </a>
-     <a class="bg-[#0033A0] text-white px-4 py-1 rounded font-semibold hover:bg-[#002080] transition" href="https://www.bca.co.id/buka-rekening" target="_blank" rel="noopener noreferrer">
-      Buka Rekening
-     </a>
-    </div>
-    <button aria-label="Open menu" class="md:hidden text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#0033A0]" id="mobile-menu-button">
-     <i class="fas fa-bars fa-lg">
+   <form aria-label="Search videos and channels" class="flex flex-1 max-w-xl mx-4" id="search-form" role="search">
+    <input aria-label="Search videos and channels" class="flex-grow rounded-l-full px-4 py-2 text-black focus:outline-none" id="search-input" placeholder="Search" required="" type="search"/>
+    <button aria-label="Search" class="bg-red-600 hover:bg-red-700 rounded-r-full px-4 flex items-center justify-center" type="submit">
+     <i class="fas fa-search text-white">
      </i>
     </button>
-   </div>
-   <!-- Mobile Menu -->
-   <nav class="hidden md:hidden bg-white border-t border-gray-200" id="mobile-menu">
-    <a class="block px-4 py-3 border-b border-gray-200 font-semibold text-[#0033A0]" href="https://www.bca.co.id/produk-layanan" target="_blank" rel="noopener noreferrer">
-     Produk &amp; Layanan
-    </a>
-    <a class="block px-4 py-3 border-b border-gray-200 font-semibold text-[#0033A0]" href="https://www.bca.co.id/digital-banking" target="_blank" rel="noopener noreferrer">
-     Digital Banking
-    </a>
-    <a class="block px-4 py-3 border-b border-gray-200 font-semibold text-[#0033A0]" href="https://www.bca.co.id/info-bca" target="_blank" rel="noopener noreferrer">
-     Info BCA
-    </a>
-    <a class="block px-4 py-3 border-b border-gray-200 font-semibold text-[#0033A0]" href="https://www.bca.co.id/bantuan" target="_blank" rel="noopener noreferrer">
-     Bantuan
-    </a>
-    <a class="block px-4 py-3 border-b border-gray-200 text-[#0033A0] font-semibold" href="https://www.klikbca.com/authentication.do" target="_blank" rel="noopener noreferrer">
-     Login
-    </a>
-    <a class="block px-4 py-3 text-white bg-[#0033A0] font-semibold text-center rounded-b" href="https://www.bca.co.id/buka-rekening" target="_blank" rel="noopener noreferrer">
-     Buka Rekening
-    </a>
-   </nav>
+   </form>
+   <button aria-label="Open menu" class="text-white text-2xl md:hidden focus:outline-none" id="menu-button">
+    <i class="fas fa-bars">
+    </i>
+   </button>
   </header>
-  <!-- Hero Section -->
-  <section class="relative bg-[#0033A0] text-white">
-   <div class="max-w-7xl mx-auto px-4 py-20 flex flex-col md:flex-row items-center md:items-start md:space-x-12">
-    <div class="md:w-1/2 space-y-6">
-     <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">
-      Solusi Keuangan Digital Terpercaya
-      <br/>
-      untuk Masa Depan Anda
-     </h1>
-     <p class="text-lg md:text-xl max-w-xl">
-      Nikmati kemudahan bertransaksi dan layanan perbankan lengkap dari BCA, bank terdepan di Indonesia.
-     </p>
-     <div class="flex space-x-4">
-      <a class="bg-yellow-400 text-[#0033A0] font-bold px-6 py-3 rounded shadow hover:bg-yellow-300 transition inline-flex items-center" href="https://www.bca.co.id/buka-rekening" target="_blank" rel="noopener noreferrer">
-       <i class="fas fa-user-plus mr-2">
-       </i>
-       Buka Rekening
-      </a>
-      <a class="border border-white px-6 py-3 rounded hover:bg-white hover:text-[#0033A0] transition inline-flex items-center font-semibold" href="https://www.bca.co.id/info-bca" target="_blank" rel="noopener noreferrer">
-       <i class="fas fa-info-circle mr-2">
-       </i>
-       Pelajari Lebih Lanjut
-      </a>
-     </div>
-    </div>
-    <div class="md:w-1/2 mt-10 md:mt-0 flex justify-center">
-     <img alt="Ilustrasi digital banking BCA dengan smartphone dan ikon layanan perbankan digital" class="rounded-lg shadow-lg" height="350" loading="lazy" src="https://storage.googleapis.com/a1aa/image/bd5d0787-cf4f-447b-f2e3-152e45a67f1b.jpg" width="500"/>
-    </div>
+  <!-- Video Player Section -->
+  <section class="bg-black flex-shrink-0 w-full max-w-4xl mx-auto mt-4 rounded-lg overflow-hidden shadow-lg" id="video-player-section">
+   <div class="relative" style="padding-top: 56.25%">
+    <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" class="absolute top-0 left-0 w-full h-full" frameborder="0" id="video-player" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0&amp;rel=0" title="YouTube video player">
+    </iframe>
    </div>
-  </section>
-  <!-- Features Section -->
-  <section class="max-w-7xl mx-auto px-4 py-16">
-   <h2 class="text-3xl font-extrabold text-center text-[#0033A0] mb-12">
-    Layanan Unggulan BCA
-   </h2>
-   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
-    <div class="flex flex-col items-center text-center space-y-4">
-     <a href="https://www.bca.co.id/bca-mobile" target="_blank" rel="noopener noreferrer" class="block">
-      <img alt="Ikon aplikasi mobile banking BCA berwarna biru dengan latar putih" class="w-20 h-20 mx-auto" height="80" loading="lazy" src="https://storage.googleapis.com/a1aa/image/9703feba-696f-4682-1667-b52d74357977.jpg" width="80"/>
-      <h3 class="font-semibold text-lg text-[#0033A0] mt-4">
-       BCA Mobile
-      </h3>
-     </a>
-     <p class="text-gray-600 text-sm max-w-xs">
-      Akses perbankan kapan saja dan di mana saja dengan aplikasi BCA Mobile.
-     </p>
-    </div>
-    <div class="flex flex-col items-center text-center space-y-4">
-     <a href="https://www.klikbca.com" target="_blank" rel="noopener noreferrer" class="block">
-      <img alt="Ikon layanan KlikBCA berwarna biru dengan latar putih" class="w-20 h-20 mx-auto" height="80" loading="lazy" src="https://storage.googleapis.com/a1aa/image/8ab5db5b-ed1a-4cd5-771f-06ac6062c051.jpg" width="80"/>
-      <h3 class="font-semibold text-lg text-[#0033A0] mt-4">
-       KlikBCA
-      </h3>
-     </a>
-     <p class="text-gray-600 text-sm max-w-xs">
-      Layanan internet banking BCA untuk transaksi bisnis dan personal.
-     </p>
-    </div>
-    <div class="flex flex-col items-center text-center space-y-4">
-     <a href="https://www.bca.co.id/halo-bca" target="_blank" rel="noopener noreferrer" class="block">
-      <img alt="Ikon layanan Halo BCA berwarna biru dengan latar putih" class="w-20 h-20 mx-auto" height="80" loading="lazy" src="https://storage.googleapis.com/a1aa/image/3c078b20-36c0-40cd-cccd-ae8cec232a02.jpg" width="80"/>
-      <h3 class="font-semibold text-lg text-[#0033A0] mt-4">
-       Halo BCA
-      </h3>
-     </a>
-     <p class="text-gray-600 text-sm max-w-xs">
-      Layanan call center 24 jam untuk bantuan dan informasi perbankan.
-     </p>
-    </div>
-    <div class="flex flex-col items-center text-center space-y-4">
-     <a href="https://www.bca.co.id/atm" target="_blank" rel="noopener noreferrer" class="block">
-      <img alt="Ikon mesin ATM BCA berwarna biru dengan latar putih" class="w-20 h-20 mx-auto" height="80" loading="lazy" src="https://storage.googleapis.com/a1aa/image/4c930e31-3f5f-4104-2492-9303574765e5.jpg" width="80"/>
-      <h3 class="font-semibold text-lg text-[#0033A0] mt-4">
-       ATM BCA
-      </h3>
-     </a>
-     <p class="text-gray-600 text-sm max-w-xs">
-      Jaringan ATM luas untuk kemudahan tarik tunai dan transaksi lainnya.
-     </p>
-    </div>
-   </div>
-  </section>
-  <!-- Products Section -->
-  <section class="bg-gray-50 py-16">
-   <div class="max-w-7xl mx-auto px-4">
-    <h2 class="text-3xl font-extrabold text-center text-[#0033A0] mb-12">
-     Produk &amp; Layanan
+   <div class="px-4 py-3">
+    <h2 class="text-white text-lg font-semibold line-clamp-2 mb-1" id="video-title" tabindex="0">
+     Rick Astley - Never Gonna Give You Up (Official Music Video)
     </h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-     <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-6 flex flex-col">
-      <img alt="Gambar ilustrasi produk tabungan BCA dengan kartu debit dan uang" class="rounded-md mb-4" height="220" loading="lazy" src="https://storage.googleapis.com/a1aa/image/ebe70970-d5e6-4632-b3ee-7a8333f6da85.jpg" width="400"/>
-      <h3 class="text-xl font-semibold text-[#0033A0] mb-2">
-       Tabungan BCA
-      </h3>
-      <p class="text-gray-700 flex-grow">
-       Beragam pilihan tabungan sesuai kebutuhan Anda dengan bunga kompetitif dan kemudahan akses.
-      </p>
-      <a class="mt-4 inline-block text-[#0033A0] font-semibold hover:underline" href="https://www.bca.co.id/tabungan" target="_blank" rel="noopener noreferrer">
-       Selengkapnya →
-      </a>
-     </div>
-     <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-6 flex flex-col">
-      <img alt="Gambar ilustrasi produk kredit BCA dengan rumah dan mobil" class="rounded-md mb-4" height="220" loading="lazy" src="https://storage.googleapis.com/a1aa/image/62bb353a-df5a-4f7e-388d-76c196ecca67.jpg" width="400"/>
-      <h3 class="text-xl font-semibold text-[#0033A0] mb-2">
-       Kredit BCA
-      </h3>
-      <p class="text-gray-700 flex-grow">
-       Solusi kredit untuk kebutuhan rumah, kendaraan, dan modal usaha dengan proses mudah dan cepat.
-      </p>
-      <a class="mt-4 inline-block text-[#0033A0] font-semibold hover:underline" href="https://www.bca.co.id/kredit" target="_blank" rel="noopener noreferrer">
-       Selengkapnya →
-      </a>
-     </div>
-     <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-6 flex flex-col">
-      <img alt="Gambar ilustrasi produk investasi BCA dengan grafik naik dan uang" class="rounded-md mb-4" height="220" loading="lazy" src="https://storage.googleapis.com/a1aa/image/4261898a-e9d6-4e48-91dc-17673cd716e4.jpg" width="400"/>
-      <h3 class="text-xl font-semibold text-[#0033A0] mb-2">
-       Investasi BCA
-      </h3>
-      <p class="text-gray-700 flex-grow">
-       Pilihan produk investasi yang aman dan menguntungkan untuk masa depan finansial Anda.
-      </p>
-      <a class="mt-4 inline-block text-[#0033A0] font-semibold hover:underline" href="https://www.bca.co.id/investasi" target="_blank" rel="noopener noreferrer">
-       Selengkapnya →
-      </a>
-     </div>
-    </div>
+    <p class="text-red-600 font-medium cursor-pointer hover:underline select-none" id="video-channel" tabindex="0">
+     Rick Astley
+    </p>
    </div>
   </section>
-  <!-- Digital Banking Section -->
-  <section class="max-w-7xl mx-auto px-4 py-16">
-   <h2 class="text-3xl font-extrabold text-center text-[#0033A0] mb-12">
-    Digital Banking BCA
-   </h2>
-   <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-    <div class="bg-white rounded-lg shadow p-6 flex flex-col items-center text-center">
-     <a href="https://www.bca.co.id/bca-mobile" target="_blank" rel="noopener noreferrer" class="block">
-      <img alt="Ikon aplikasi BCA Mobile berwarna biru dengan latar putih" class="mb-4 mx-auto" height="120" loading="lazy" src="https://storage.googleapis.com/a1aa/image/c26b8f85-5c1a-4137-7c01-440df71104c1.jpg" width="120"/>
-      <h3 class="text-xl font-semibold text-[#0033A0] mb-2">
-       BCA Mobile
-      </h3>
-     </a>
-     <p class="text-gray-700">
-      Aplikasi mobile banking lengkap dengan fitur transfer, pembayaran, dan pembukaan rekening.
-     </p>
-     <a class="mt-4 text-[#0033A0] font-semibold hover:underline" href="https://www.bca.co.id/bca-mobile" target="_blank" rel="noopener noreferrer">
-      Download Sekarang →
-     </a>
-    </div>
-    <div class="bg-white rounded-lg shadow p-6 flex flex-col items-center text-center">
-     <a href="https://www.klikbca.com" target="_blank" rel="noopener noreferrer" class="block">
-      <img alt="Ikon layanan KlikBCA berwarna biru dengan latar putih" class="mb-4 mx-auto" height="120" loading="lazy" src="https://storage.googleapis.com/a1aa/image/8ab5db5b-ed1a-4cd5-771f-06ac6062c051.jpg" width="120"/>
-      <h3 class="text-xl font-semibold text-[#0033A0] mb-2">
-       KlikBCA
-      </h3>
-     </a>
-     <p class="text-gray-700">
-      Internet banking BCA untuk transaksi bisnis dan personal dengan keamanan tinggi.
-     </p>
-     <a class="mt-4 text-[#0033A0] font-semibold hover:underline" href="https://www.klikbca.com/authentication.do" target="_blank" rel="noopener noreferrer">
-      Login KlikBCA →
-     </a>
-    </div>
-    <div class="bg-white rounded-lg shadow p-6 flex flex-col items-center text-center">
-     <a href="https://www.bca.co.id/halo-bca" target="_blank" rel="noopener noreferrer" class="block">
-      <img alt="Ikon layanan Halo BCA berwarna biru dengan latar putih" class="mb-4 mx-auto" height="120" loading="lazy" src="https://storage.googleapis.com/a1aa/image/3c078b20-36c0-40cd-cccd-ae8cec232a02.jpg" width="120"/>
-      <h3 class="text-xl font-semibold text-[#0033A0] mb-2">
-       Halo BCA
-      </h3>
-     </a>
-     <p class="text-gray-700">
-      Layanan call center 24 jam siap membantu kebutuhan dan informasi perbankan Anda.
-     </p>
-     <a class="mt-4 text-[#0033A0] font-semibold hover:underline" href="https://www.bca.co.id/halo-bca" target="_blank" rel="noopener noreferrer">
-      Hubungi Kami →
-     </a>
-    </div>
-   </div>
+  <!-- Video List Section -->
+  <section aria-label="Search results" class="flex-grow overflow-y-auto mt-4 max-w-4xl mx-auto px-2 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 pb-20" id="video-list">
+   <!-- Video cards inserted here dynamically -->
   </section>
-  <!-- News & Updates Section -->
-  <section class="bg-[#0033A0] text-white py-16">
-   <div class="max-w-7xl mx-auto px-4">
-    <h2 class="text-3xl font-extrabold text-center mb-12">
-     Berita &amp; Pengumuman
-    </h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-     <article class="bg-[#0046c3] rounded-lg overflow-hidden shadow-lg hover:bg-[#002d80] transition">
-      <a href="https://www.bca.co.id/berita/pengumuman-penting-mei-2025" target="_blank" rel="noopener noreferrer">
-       <img alt="Gambar ilustrasi pengumuman resmi BCA bulan Mei 2025 dengan latar biru dan logo BCA" class="w-full h-48 object-cover" height="220" loading="lazy" src="https://storage.googleapis.com/a1aa/image/2185e420-becf-444b-e461-d08c2824a7c3.jpg" width="400"/>
-       <div class="p-6">
-        <h3 class="font-semibold text-xl mb-2">
-         Pengumuman Penting BCA Mei 2025
-        </h3>
-        <p class="text-sm mb-4">
-         Informasi terbaru mengenai layanan dan kebijakan BCA untuk meningkatkan kenyamanan nasabah.
-        </p>
-        <span class="text-yellow-400 font-semibold hover:underline">
-         Selengkapnya →
-        </span>
-       </div>
-      </a>
-     </article>
-     <article class="bg-[#0046c3] rounded-lg overflow-hidden shadow-lg hover:bg-[#002d80] transition">
-      <a href="https://www.bca.co.id/berita/promo-menarik-2025" target="_blank" rel="noopener noreferrer">
-       <img alt="Gambar ilustrasi promo dan diskon BCA terbaru tahun 2025 dengan latar biru dan ikon hadiah" class="w-full h-48 object-cover" height="220" loading="lazy" src="https://storage.googleapis.com/a1aa/image/4d25e028-dad6-4432-fb6c-722906a53e8e.jpg" width="400"/>
-       <div class="p-6">
-        <h3 class="font-semibold text-xl mb-2">
-         Promo Menarik BCA Tahun 2025
-        </h3>
-        <p class="text-sm mb-4">
-         Nikmati berbagai promo dan diskon eksklusif dari BCA untuk nasabah setia kami.
-        </p>
-        <span class="text-yellow-400 font-semibold hover:underline">
-         Selengkapnya →
-        </span>
-       </div>
-      </a>
-     </article>
-     <article class="bg-[#0046c3] rounded-lg overflow-hidden shadow-lg hover:bg-[#002d80] transition">
-      <a href="https://www.bca.co.id/berita/inovasi-digital-2025" target="_blank" rel="noopener noreferrer">
-       <img alt="Gambar ilustrasi teknologi digital terbaru BCA dengan latar biru dan ikon teknologi" class="w-full h-48 object-cover" height="220" loading="lazy" src="https://storage.googleapis.com/a1aa/image/8d69f49f-4f87-41ea-45a7-7ec645097067.jpg" width="400"/>
-       <div class="p-6">
-        <h3 class="font-semibold text-xl mb-2">
-         Inovasi Digital BCA 2025
-        </h3>
-        <p class="text-sm mb-4">
-         BCA terus berinovasi menghadirkan teknologi digital terbaru untuk kemudahan transaksi Anda.
-        </p>
-        <span class="text-yellow-400 font-semibold hover:underline">
-         Selengkapnya →
-        </span>
-       </div>
-      </a>
-     </article>
-    </div>
-   </div>
-  </section>
-  <!-- Footer -->
-  <footer class="bg-[#0033A0] text-white py-12">
-   <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-10">
-    <div>
-     <a href="https://www.bca.co.id" target="_blank" rel="noopener noreferrer">
-      <img alt="Logo Bank Central Asia BCA warna putih dengan latar biru" class="mb-6" height="40" loading="lazy" src="https://storage.googleapis.com/a1aa/image/9cf7acbb-edf7-4ce1-783c-9314eaa4ca1c.jpg" width="120"/>
-     </a>
-     <p class="text-sm max-w-xs">
-      Bank Central Asia (BCA) adalah bank swasta terbesar di Indonesia yang menyediakan layanan perbankan lengkap dan terpercaya.
-     </p>
-    </div>
-    <div>
-     <h4 class="font-semibold text-lg mb-4">
-      Produk &amp; Layanan
-     </h4>
-     <ul class="space-y-2 text-sm">
-      <li>
-       <a class="hover:underline" href="https://www.bca.co.id/tabungan" target="_blank" rel="noopener noreferrer">
-        Tabungan
-       </a>
-      </li>
-      <li>
-       <a class="hover:underline" href="https://www.bca.co.id/kredit" target="_blank" rel="noopener noreferrer">
-        Kredit
-       </a>
-      </li>
-      <li>
-       <a class="hover:underline" href="https://www.bca.co.id/investasi" target="_blank" rel="noopener noreferrer">
-        Investasi
-       </a>
-      </li>
-      <li>
-       <a class="hover:underline" href="https://www.bca.co.id/asuransi" target="_blank" rel="noopener noreferrer">
-        Asuransi
-       </a>
-      </li>
-      <li>
-       <a class="hover:underline" href="https://www.bca.co.id/e-banking" target="_blank" rel="noopener noreferrer">
-        E-Banking
-       </a>
-      </li>
-     </ul>
-    </div>
-    <div>
-     <h4 class="font-semibold text-lg mb-4">
-      Bantuan
-     </h4>
-     <ul class="space-y-2 text-sm">
-      <li>
-       <a class="hover:underline" href="https://www.bca.co.id/faq" target="_blank" rel="noopener noreferrer">
-        FAQ
-       </a>
-      </li>
-      <li>
-       <a class="hover:underline" href="https://www.bca.co.id/kontak-kami" target="_blank" rel="noopener noreferrer">
-        Kontak Kami
-       </a>
-      </li>
-      <li>
-       <a class="hover:underline" href="https://www.bca.co.id/cabang-atm" target="_blank" rel="noopener noreferrer">
-        Cabang &amp; ATM
-       </a>
-      </li>
-      <li>
-       <a class="hover:underline" href="https://www.bca.co.id/keamanan" target="_blank" rel="noopener noreferrer">
-        Keamanan
-       </a>
-      </li>
-      <li>
-       <a class="hover:underline" href="https://www.bca.co.id/syarat-ketentuan" target="_blank" rel="noopener noreferrer">
-        Syarat &amp; Ketentuan
-       </a>
-      </li>
-     </ul>
-    </div>
-    <div>
-     <h4 class="font-semibold text-lg mb-4">
-      Ikuti Kami
-     </h4>
-     <div class="flex space-x-6 text-xl">
-      <a aria-label="Facebook" class="hover:text-yellow-400" href="https://www.facebook.com/bca" target="_blank" rel="noopener noreferrer">
-       <i class="fab fa-facebook-square">
-       </i>
-      </a>
-      <a aria-label="Twitter" class="hover:text-yellow-400" href="https://twitter.com/bca" target="_blank" rel="noopener noreferrer">
-       <i class="fab fa-twitter-square">
-       </i>
-      </a>
-      <a aria-label="Instagram" class="hover:text-yellow-400" href="https://www.instagram.com/bca" target="_blank" rel="noopener noreferrer">
-       <i class="fab fa-instagram-square">
-       </i>
-      </a>
-      <a aria-label="LinkedIn" class="hover:text-yellow-400" href="https://www.linkedin.com/company/bca" target="_blank" rel="noopener noreferrer">
-       <i class="fab fa-linkedin">
-       </i>
-      </a>
-     </div>
-     <div class="mt-6 text-sm">
-      <p>
-       © 2025 Bank Central Asia. All rights reserved.
-      </p>
-     </div>
-    </div>
-   </div>
-  </footer>
+  <!-- Bottom Navigation -->
+  <nav aria-label="Bottom navigation" class="fixed bottom-0 left-0 right-0 bg-black border-t border-gray-800 flex justify-around items-center h-14 md:hidden z-50" role="navigation">
+   <button aria-label="Home" class="flex flex-col items-center justify-center text-red-600 active-icon focus:outline-none" id="nav-home" tabindex="0">
+    <i class="fas fa-home fa-lg">
+    </i>
+    <span class="text-xs mt-0.5">
+     Home
+    </span>
+   </button>
+   <button aria-label="Trending" class="flex flex-col items-center justify-center text-gray-400 hover:text-red-600 focus:outline-none" id="nav-trending" tabindex="0">
+    <i class="fas fa-fire fa-lg">
+    </i>
+    <span class="text-xs mt-0.5">
+     Trending
+    </span>
+   </button>
+   <button aria-label="Subscriptions" class="flex flex-col items-center justify-center text-gray-400 hover:text-red-600 focus:outline-none" id="nav-subscriptions" tabindex="0">
+    <i class="fas fa-folder fa-lg">
+    </i>
+    <span class="text-xs mt-0.5">
+     Subscriptions
+    </span>
+   </button>
+   <button aria-label="Library" class="flex flex-col items-center justify-center text-gray-400 hover:text-red-600 focus:outline-none" id="nav-library" tabindex="0">
+    <i class="fas fa-book fa-lg">
+    </i>
+    <span class="text-xs mt-0.5">
+     Library
+    </span>
+   </button>
+  </nav>
   <script>
-   const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
+   // YouTube Data API v3 key (replace with your own key)
+    const API_KEY = "YOUR_YOUTUBE_DATA_API_KEY";
 
-    mobileMenuButton.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
+    // Elements
+    const searchForm = document.getElementById("search-form");
+    const searchInput = document.getElementById("search-input");
+    const videoList = document.getElementById("video-list");
+    const videoPlayer = document.getElementById("video-player");
+    const videoTitle = document.getElementById("video-title");
+    const videoChannel = document.getElementById("video-channel");
+
+    // Bottom nav buttons
+    const navHome = document.getElementById("nav-home");
+    const navTrending = document.getElementById("nav-trending");
+    const navSubscriptions = document.getElementById("nav-subscriptions");
+    const navLibrary = document.getElementById("nav-library");
+
+    // State
+    let currentPageToken = "";
+    let currentQuery = "";
+    let currentMode = "home"; // home, trending, subscriptions, library, search
+
+    // Helper: create video card element
+    function createVideoCard(video) {
+      const videoId = video.id.videoId || video.id;
+      const title = video.snippet.title;
+      const channelTitle = video.snippet.channelTitle;
+      const thumbnailUrl = video.snippet.thumbnails.medium.url;
+
+      const card = document.createElement("div");
+      card.className =
+        "bg-gray-900 rounded-lg overflow-hidden cursor-pointer flex flex-col shadow-md hover:shadow-lg";
+
+      const img = document.createElement("img");
+      img.src = thumbnailUrl;
+      img.alt = `Thumbnail image for video titled ${title}`;
+      img.className = "w-full h-36 object-cover";
+
+      const content = document.createElement("div");
+      content.className = "p-2 flex flex-col flex-grow";
+
+      const titleEl = document.createElement("h3");
+      titleEl.textContent = title;
+      titleEl.className = "text-white text-sm font-semibold line-clamp-2";
+
+      const channelEl = document.createElement("p");
+      channelEl.textContent = channelTitle;
+      channelEl.className = "text-gray-400 text-xs mt-1";
+
+      content.appendChild(titleEl);
+      content.appendChild(channelEl);
+
+      card.appendChild(img);
+      card.appendChild(content);
+
+      card.addEventListener("click", () => {
+        playVideo(videoId, title, channelTitle);
+      });
+
+      return card;
+    }
+
+    // Play video in player
+    function playVideo(videoId, title, channelTitle) {
+      videoPlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+      videoTitle.textContent = title;
+      videoChannel.textContent = channelTitle;
+      videoChannel.onclick = () => {
+        currentQuery = `channel:${videoId}`;
+        performSearch(`channel:${videoId}`);
+      };
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // Clear active nav button styles
+    function clearActiveNav() {
+      [navHome, navTrending, navSubscriptions, navLibrary].forEach((btn) => {
+        btn.classList.remove("text-red-600", "active-icon");
+        btn.classList.add("text-gray-400");
+      });
+    }
+
+    // Set active nav button style
+    function setActiveNav(button) {
+      clearActiveNav();
+      button.classList.add("text-red-600", "active-icon");
+      button.classList.remove("text-gray-400");
+    }
+
+    // Perform search using YouTube Data API
+    async function performSearch(query) {
+      if (!query) return;
+      currentMode = "search";
+      currentQuery = query;
+      setActiveNav(navHome);
+      videoList.innerHTML =
+        '<p class="col-span-full text-center text-gray-400 mt-10">Loading...</p>';
+
+      let apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&type=video,channel&q=${encodeURIComponent(
+        query
+      )}&key=${API_KEY}`;
+
+      // If searching by channel ID (custom syntax channel:CHANNEL_ID), adjust API call
+      if (query.startsWith("channel:")) {
+        const channelId = query.split(":")[1];
+        apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&type=video&channelId=${channelId}&key=${API_KEY}`;
+      }
+
+      try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        if (!data.items || data.items.length === 0) {
+          videoList.innerHTML =
+            '<p class="col-span-full text-center text-gray-400 mt-10">No results found.</p>';
+          return;
+        }
+
+        videoList.innerHTML = "";
+        data.items.forEach((item) => {
+          // Only show videos (ignore channels in results for simplicity)
+          if (item.id.kind === "youtube#video") {
+            const card = createVideoCard(item);
+            videoList.appendChild(card);
+          }
+        });
+      } catch (error) {
+        videoList.innerHTML =
+          '<p class="col-span-full text-center text-red-600 mt-10">Error loading results.</p>';
+        console.error(error);
+      }
+    }
+
+    // Load trending videos
+    async function loadTrending() {
+      currentMode = "trending";
+      setActiveNav(navTrending);
+      videoList.innerHTML =
+        '<p class="col-span-full text-center text-gray-400 mt-10">Loading trending videos...</p>';
+      const apiUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=24&regionCode=US&key=${API_KEY}`;
+      try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        if (!data.items || data.items.length === 0) {
+          videoList.innerHTML =
+            '<p class="col-span-full text-center text-gray-400 mt-10">No trending videos found.</p>';
+          return;
+        }
+        videoList.innerHTML = "";
+        data.items.forEach((video) => {
+          const item = {
+            id: video.id,
+            snippet: video.snippet,
+          };
+          const card = createVideoCard(item);
+          videoList.appendChild(card);
+        });
+      } catch (error) {
+        videoList.innerHTML =
+          '<p class="col-span-full text-center text-red-600 mt-10">Error loading trending videos.</p>';
+        console.error(error);
+      }
+    }
+
+    // Load subscriptions placeholder (since no user auth, show popular channels)
+    async function loadSubscriptions() {
+      currentMode = "subscriptions";
+      setActiveNav(navSubscriptions);
+      videoList.innerHTML =
+        '<p class="col-span-full text-center text-gray-400 mt-10">Loading subscriptions...</p>';
+      // For demo, show popular channels (simulate subscriptions)
+      const popularChannels = [
+        "UC-9-kyTW8ZkZNDHQJ6FgpwQ", // Music
+        "UCq-Fj5jknLsUf-MWSy4_brA", // Gaming
+        "UC295-Dw_tDNtZXFeAPAW6Aw", // News
+        "UCJowOS1R0FnhipXVqEnYU1A", // Movies
+        "UCYfdidRxbB8Qhf0Nx7ioOYw", // Sports
+        "UCOpNcN46UbXVtpKMrmU4Abg", // Tech
+      ];
+      videoList.innerHTML = "";
+      for (const channelId of popularChannels) {
+        try {
+          const response = await fetch(
+            `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${API_KEY}`
+          );
+          const data = await response.json();
+          if (data.items && data.items.length > 0) {
+            const channel = data.items[0];
+            const card = document.createElement("div");
+            card.className =
+              "bg-gray-900 rounded-lg overflow-hidden cursor-pointer flex flex-col shadow-md hover:shadow-lg";
+
+            const img = document.createElement("img");
+            img.src = channel.snippet.thumbnails.medium.url;
+            img.alt = `Channel logo for ${channel.snippet.title}`;
+            img.className = "w-full h-36 object-cover";
+
+            const content = document.createElement("div");
+            content.className = "p-2 flex flex-col flex-grow";
+
+            const titleEl = document.createElement("h3");
+            titleEl.textContent = channel.snippet.title;
+            titleEl.className = "text-white text-sm font-semibold line-clamp-2";
+
+            content.appendChild(titleEl);
+
+            card.appendChild(img);
+            card.appendChild(content);
+
+            card.addEventListener("click", () => {
+              performSearch(`channel:${channelId}`);
+            });
+
+            videoList.appendChild(card);
+          }
+        } catch (error) {
+          console.error("Error loading subscription channel", error);
+        }
+      }
+    }
+
+    // Load library placeholder (simulate history or liked videos)
+    async function loadLibrary() {
+      currentMode = "library";
+      setActiveNav(navLibrary);
+      videoList.innerHTML =
+        '<p class="col-span-full text-center text-gray-400 mt-10">Loading library...</p>';
+      // For demo, show liked videos (hardcoded popular videos)
+      const likedVideoIds = [
+        "3JZ_D3ELwOQ",
+        "kJQP7kiw5Fk",
+        "RgKAFK5djSk",
+        "fRh_vgS2dFE",
+        "OPf0YbXqDm0",
+        "09R8_2nJtjg",
+      ];
+      videoList.innerHTML = "";
+      for (const videoId of likedVideoIds) {
+        try {
+          const response = await fetch(
+            `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${API_KEY}`
+          );
+          const data = await response.json();
+          if (data.items && data.items.length > 0) {
+            const video = data.items[0];
+            const item = {
+              id: video.id,
+              snippet: video.snippet,
+            };
+            const card = createVideoCard(item);
+            videoList.appendChild(card);
+          }
+        } catch (error) {
+          console.error("Error loading library video", error);
+        }
+      }
+    }
+
+    // Event listeners
+    searchForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const query = searchInput.value.trim();
+      if (query) {
+        performSearch(query);
+      }
     });
+
+    navHome.addEventListener("click", () => {
+      currentMode = "home";
+      searchInput.value = "";
+      loadTrending();
+    });
+    navTrending.addEventListener("click", () => {
+      loadTrending();
+    });
+    navSubscriptions.addEventListener("click", () => {
+      loadSubscriptions();
+    });
+    navLibrary.addEventListener("click", () => {
+      loadLibrary();
+    });
+
+    // Initialize app with trending videos
+    loadTrending();
   </script>
  </body>
 </html>
