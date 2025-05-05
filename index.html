@@ -3,12 +3,12 @@
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1" name="viewport"/>
   <title>
-   Bank BRI - Bank Rakyat Indonesia
+   BCA - Bank Central Asia
   </title>
   <script src="https://cdn.tailwindcss.com">
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
   <style>
    body {
       font-family: 'Inter', sans-serif;
@@ -17,343 +17,428 @@
  </head>
  <body class="bg-white text-gray-800">
   <!-- Top Bar -->
-  <div class="bg-[#003366] text-white text-sm flex justify-between px-4 py-1 items-center">
+  <div class="bg-[#0033A0] text-white text-sm py-1 px-4 flex justify-between items-center">
    <div class="flex space-x-4">
-    <a class="hover:underline" href="https://bri.co.id/id/layanan-pelanggan" rel="noopener" target="_blank">
-     Layanan Pelanggan
+    <a class="hover:underline" href="https://www.bca.co.id/bca-mobile" target="_blank" rel="noopener noreferrer">
+     BCA Mobile
     </a>
-    <a class="hover:underline" href="https://bri.co.id/id/cari-cabang" rel="noopener" target="_blank">
-     Cari Cabang
+    <a class="hover:underline" href="https://www.klikbca.com" target="_blank" rel="noopener noreferrer">
+     KlikBCA
     </a>
-    <a class="hover:underline" href="https://bri.co.id/id/cari-agen" rel="noopener" target="_blank">
-     Cari Agen BRILink
+    <a class="hover:underline" href="https://www.bca.co.id/halo-bca" target="_blank" rel="noopener noreferrer">
+     Halo BCA
+    </a>
+    <a class="hover:underline" href="https://www.bca.co.id/info-bca" target="_blank" rel="noopener noreferrer">
+     Info BCA
     </a>
    </div>
-   <div class="flex space-x-4">
-    <a class="hover:underline" href="https://bri.co.id/id/login" rel="noopener" target="_blank">
-     Login
+   <div class="flex space-x-4 items-center">
+    <a class="hover:underline flex items-center" href="https://www.bca.co.id/bahasa" target="_blank" rel="noopener noreferrer">
+     <i class="fas fa-globe mr-1">
+     </i>
+     Bahasa
     </a>
-    <a class="hover:underline" href="https://bri.co.id/id/registrasi" rel="noopener" target="_blank">
-     Registrasi
+    <a class="hover:underline flex items-center" href="https://www.klikbca.com/authentication.do" target="_blank" rel="noopener noreferrer">
+     <i class="fas fa-user-circle mr-1">
+     </i>
+     Login
     </a>
    </div>
   </div>
-  <!-- Header with Logo and Navigation -->
-  <header class="border-b border-gray-200">
+  <!-- Header / Navbar -->
+  <header class="bg-white shadow-md sticky top-0 z-50">
    <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
-    <a class="flex items-center space-x-3" href="https://bri.co.id" rel="noopener" target="_blank">
-     <img alt="Logo Bank BRI berwarna biru dengan tulisan BRI putih" class="h-12 w-auto" height="50" src="https://storage.googleapis.com/a1aa/image/0ffb5e14-6875-4b41-9d1d-eb96d5291d80.jpg" width="150"/>
+    <a class="flex items-center space-x-3" href="https://www.bca.co.id" target="_blank" rel="noopener noreferrer">
+     <img alt="Logo Bank Central Asia BCA warna biru dengan tulisan BCA putih" class="h-10 w-auto" height="40" loading="lazy" src="https://storage.googleapis.com/a1aa/image/3f6762b0-2a17-4f6c-b5e3-ad2bad8d8401.jpg" width="120"/>
     </a>
     <nav class="hidden md:flex space-x-8 font-semibold text-gray-700">
-     <a class="hover:text-[#003366]" href="https://bri.co.id/id/produk" rel="noopener" target="_blank">
-      Produk
+     <a class="hover:text-[#0033A0] transition" href="https://www.bca.co.id/produk-layanan" target="_blank" rel="noopener noreferrer">
+      Produk &amp; Layanan
      </a>
-     <a class="hover:text-[#003366]" href="https://bri.co.id/id/layanan" rel="noopener" target="_blank">
-      Layanan
+     <a class="hover:text-[#0033A0] transition" href="https://www.bca.co.id/digital-banking" target="_blank" rel="noopener noreferrer">
+      Digital Banking
      </a>
-     <a class="hover:text-[#003366]" href="https://bri.co.id/id/informasi" rel="noopener" target="_blank">
-      Informasi
+     <a class="hover:text-[#0033A0] transition" href="https://www.bca.co.id/info-bca" target="_blank" rel="noopener noreferrer">
+      Info BCA
      </a>
-     <a class="hover:text-[#003366]" href="https://bri.co.id/id/berita" rel="noopener" target="_blank">
-      Berita
-     </a>
-     <a class="hover:text-[#003366]" href="https://bri.co.id/id/tentang-bri" rel="noopener" target="_blank">
-      Tentang BRI
+     <a class="hover:text-[#0033A0] transition" href="https://www.bca.co.id/bantuan" target="_blank" rel="noopener noreferrer">
+      Bantuan
      </a>
     </nav>
-    <button aria-label="Toggle menu" class="md:hidden text-gray-700 hover:text-[#003366] focus:outline-none focus:ring-2 focus:ring-[#003366]" id="mobile-menu-button">
+    <div class="hidden md:flex space-x-4">
+     <a class="text-[#0033A0] font-semibold border border-[#0033A0] px-4 py-1 rounded hover:bg-[#0033A0] hover:text-white transition" href="https://www.klikbca.com/authentication.do" target="_blank" rel="noopener noreferrer">
+      Login
+     </a>
+     <a class="bg-[#0033A0] text-white px-4 py-1 rounded font-semibold hover:bg-[#002080] transition" href="https://www.bca.co.id/buka-rekening" target="_blank" rel="noopener noreferrer">
+      Buka Rekening
+     </a>
+    </div>
+    <button aria-label="Open menu" class="md:hidden text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#0033A0]" id="mobile-menu-button">
      <i class="fas fa-bars fa-lg">
      </i>
     </button>
    </div>
    <!-- Mobile Menu -->
    <nav class="hidden md:hidden bg-white border-t border-gray-200" id="mobile-menu">
-    <a class="block px-4 py-3 border-b border-gray-100 hover:bg-[#e6f0ff] text-[#003366] font-semibold" href="https://bri.co.id/id/produk" rel="noopener" target="_blank">
-     Produk
+    <a class="block px-4 py-3 border-b border-gray-200 font-semibold text-[#0033A0]" href="https://www.bca.co.id/produk-layanan" target="_blank" rel="noopener noreferrer">
+     Produk &amp; Layanan
     </a>
-    <a class="block px-4 py-3 border-b border-gray-100 hover:bg-[#e6f0ff] text-[#003366] font-semibold" href="https://bri.co.id/id/layanan" rel="noopener" target="_blank">
-     Layanan
+    <a class="block px-4 py-3 border-b border-gray-200 font-semibold text-[#0033A0]" href="https://www.bca.co.id/digital-banking" target="_blank" rel="noopener noreferrer">
+     Digital Banking
     </a>
-    <a class="block px-4 py-3 border-b border-gray-100 hover:bg-[#e6f0ff] text-[#003366] font-semibold" href="https://bri.co.id/id/informasi" rel="noopener" target="_blank">
-     Informasi
+    <a class="block px-4 py-3 border-b border-gray-200 font-semibold text-[#0033A0]" href="https://www.bca.co.id/info-bca" target="_blank" rel="noopener noreferrer">
+     Info BCA
     </a>
-    <a class="block px-4 py-3 border-b border-gray-100 hover:bg-[#e6f0ff] text-[#003366] font-semibold" href="https://bri.co.id/id/berita" rel="noopener" target="_blank">
-     Berita
+    <a class="block px-4 py-3 border-b border-gray-200 font-semibold text-[#0033A0]" href="https://www.bca.co.id/bantuan" target="_blank" rel="noopener noreferrer">
+     Bantuan
     </a>
-    <a class="block px-4 py-3 hover:bg-[#e6f0ff] text-[#003366] font-semibold" href="https://bri.co.id/id/tentang-bri" rel="noopener" target="_blank">
-     Tentang BRI
+    <a class="block px-4 py-3 border-b border-gray-200 text-[#0033A0] font-semibold" href="https://www.klikbca.com/authentication.do" target="_blank" rel="noopener noreferrer">
+     Login
+    </a>
+    <a class="block px-4 py-3 text-white bg-[#0033A0] font-semibold text-center rounded-b" href="https://www.bca.co.id/buka-rekening" target="_blank" rel="noopener noreferrer">
+     Buka Rekening
     </a>
    </nav>
   </header>
   <!-- Hero Section -->
-  <section class="relative bg-[#003366] text-white">
-   <div class="max-w-7xl mx-auto px-4 py-16 flex flex-col md:flex-row items-center md:items-start md:space-x-12">
+  <section class="relative bg-[#0033A0] text-white">
+   <div class="max-w-7xl mx-auto px-4 py-20 flex flex-col md:flex-row items-center md:items-start md:space-x-12">
     <div class="md:w-1/2 space-y-6">
      <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">
-      Melayani Negeri, Kebanggaan Bangsa
+      Solusi Keuangan Digital Terpercaya
+      <br/>
+      untuk Masa Depan Anda
      </h1>
      <p class="text-lg md:text-xl max-w-xl">
-      Bank Rakyat Indonesia (BRI) hadir untuk memberikan layanan perbankan terbaik bagi seluruh lapisan masyarakat Indonesia dengan inovasi dan teknologi terkini.
+      Nikmati kemudahan bertransaksi dan layanan perbankan lengkap dari BCA, bank terdepan di Indonesia.
      </p>
      <div class="flex space-x-4">
-      <a class="bg-yellow-400 hover:bg-yellow-500 text-[#003366] font-bold px-6 py-3 rounded shadow-md transition" href="https://bri.co.id/id/produk" rel="noopener" target="_blank">
-       Lihat Produk
+      <a class="bg-yellow-400 text-[#0033A0] font-bold px-6 py-3 rounded shadow hover:bg-yellow-300 transition inline-flex items-center" href="https://www.bca.co.id/buka-rekening" target="_blank" rel="noopener noreferrer">
+       <i class="fas fa-user-plus mr-2">
+       </i>
+       Buka Rekening
       </a>
-      <a class="border border-white hover:border-yellow-400 hover:text-yellow-400 px-6 py-3 rounded font-semibold transition" href="https://bri.co.id/id/layanan" rel="noopener" target="_blank">
-       Layanan Kami
+      <a class="border border-white px-6 py-3 rounded hover:bg-white hover:text-[#0033A0] transition inline-flex items-center font-semibold" href="https://www.bca.co.id/info-bca" target="_blank" rel="noopener noreferrer">
+       <i class="fas fa-info-circle mr-2">
+       </i>
+       Pelajari Lebih Lanjut
       </a>
      </div>
     </div>
     <div class="md:w-1/2 mt-10 md:mt-0 flex justify-center">
-     <img alt="Ilustrasi nasabah Bank BRI yang bahagia sedang menggunakan layanan perbankan digital dengan latar belakang kantor cabang BRI modern" class="rounded-lg shadow-lg w-full max-w-md" height="350" src="https://storage.googleapis.com/a1aa/image/b79d79aa-f132-4016-b171-61e06ec97233.jpg" width="500"/>
+     <img alt="Ilustrasi digital banking BCA dengan smartphone dan ikon layanan perbankan digital" class="rounded-lg shadow-lg" height="350" loading="lazy" src="https://storage.googleapis.com/a1aa/image/bd5d0787-cf4f-447b-f2e3-152e45a67f1b.jpg" width="500"/>
     </div>
    </div>
   </section>
-  <!-- Quick Access Buttons -->
-  <section class="max-w-7xl mx-auto px-4 py-12 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
-   <a class="flex flex-col items-center bg-white border border-gray-200 rounded-lg p-6 shadow hover:shadow-lg transition" href="https://bri.co.id/id/informasi/atm" rel="noopener" target="_blank">
-    <img alt="Ikon ATM Bank BRI berwarna biru dengan latar belakang putih" class="mb-3" height="64" src="https://storage.googleapis.com/a1aa/image/931ecfb9-8cfc-4686-eab0-8ca677bd0fd2.jpg" width="64"/>
-    <span class="font-semibold text-[#003366]">
-     ATM &amp; Cabang
-    </span>
-   </a>
-   <a class="flex flex-col items-center bg-white border border-gray-200 rounded-lg p-6 shadow hover:shadow-lg transition" href="https://bri.co.id/id/layanan/internet-banking" rel="noopener" target="_blank">
-    <img alt="Ikon Internet Banking Bank BRI berwarna biru dengan latar belakang putih" class="mb-3" height="64" src="https://storage.googleapis.com/a1aa/image/c750e4dd-6667-4aff-03fd-23437b460127.jpg" width="64"/>
-    <span class="font-semibold text-[#003366]">
-     Internet Banking
-    </span>
-   </a>
-   <a class="flex flex-col items-center bg-white border border-gray-200 rounded-lg p-6 shadow hover:shadow-lg transition" href="https://bri.co.id/id/layanan/mobile-banking" rel="noopener" target="_blank">
-    <img alt="Ikon Mobile Banking Bank BRI berwarna biru dengan latar belakang putih" class="mb-3" height="64" src="https://storage.googleapis.com/a1aa/image/21a674ea-e96d-4512-fe82-b34a2b849925.jpg" width="64"/>
-    <span class="font-semibold text-[#003366]">
-     Mobile Banking
-    </span>
-   </a>
-   <a class="flex flex-col items-center bg-white border border-gray-200 rounded-lg p-6 shadow hover:shadow-lg transition" href="https://bri.co.id/id/layanan/produk-tabungan" rel="noopener" target="_blank">
-    <img alt="Ikon produk tabungan Bank BRI berwarna biru dengan latar belakang putih" class="mb-3" height="64" src="https://storage.googleapis.com/a1aa/image/4bdbefe2-d495-4e0c-3ebe-99d866a27a59.jpg" width="64"/>
-    <span class="font-semibold text-[#003366]">
-     Produk Tabungan
-    </span>
-   </a>
-  </section>
-  <!-- Produk Unggulan -->
-  <section class="bg-gray-50 py-12">
-   <div class="max-w-7xl mx-auto px-4">
-    <h2 class="text-3xl font-extrabold text-[#003366] mb-8 text-center">
-     Produk Unggulan BRI
-    </h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-     <a class="bg-white rounded-lg shadow hover:shadow-lg transition p-6 flex flex-col items-center text-center" href="https://bri.co.id/id/produk/kredit-usaha-rakyat" rel="noopener" target="_blank">
-      <img alt="Logo produk Kredit Usaha Rakyat (KUR) Bank BRI berwarna biru dengan latar belakang putih" class="mb-4" height="120" src="https://storage.googleapis.com/a1aa/image/80bd5ef4-73fb-48e9-5abd-229e6f826b7c.jpg" width="120"/>
-      <h3 class="font-semibold text-[#003366] mb-2">
-       Kredit Usaha Rakyat (KUR)
-      </h3>
-      <p class="text-gray-600 text-sm">
-       Pinjaman modal usaha dengan bunga ringan untuk pelaku UMKM.
-      </p>
-     </a>
-     <a class="bg-white rounded-lg shadow hover:shadow-lg transition p-6 flex flex-col items-center text-center" href="https://bri.co.id/id/produk/tabungan-bri-simpedes" rel="noopener" target="_blank">
-      <img alt="Logo produk Tabungan Simpedes Bank BRI berwarna biru dengan latar belakang putih" class="mb-4" height="120" src="https://storage.googleapis.com/a1aa/image/780f2d78-74c7-4c77-bc0b-8562cd6b4928.jpg" width="120"/>
-      <h3 class="font-semibold text-[#003366] mb-2">
-       Tabungan Simpedes
-      </h3>
-      <p class="text-gray-600 text-sm">
-       Tabungan dengan berbagai kemudahan dan keuntungan untuk masyarakat.
-      </p>
-     </a>
-     <a class="bg-white rounded-lg shadow hover:shadow-lg transition p-6 flex flex-col items-center text-center" href="https://bri.co.id/id/produk/deposito" rel="noopener" target="_blank">
-      <img alt="Logo produk Deposito Bank BRI berwarna biru dengan latar belakang putih" class="mb-4" height="120" src="https://storage.googleapis.com/a1aa/image/d6e5ac23-278f-4193-5c6b-946eb166321c.jpg" width="120"/>
-      <h3 class="font-semibold text-[#003366] mb-2">
-       Deposito
-      </h3>
-      <p class="text-gray-600 text-sm">
-       Investasi berjangka dengan bunga kompetitif dan aman.
-      </p>
-     </a>
-     <a class="bg-white rounded-lg shadow hover:shadow-lg transition p-6 flex flex-col items-center text-center" href="https://bri.co.id/id/produk/kartu-kredit" rel="noopener" target="_blank">
-      <img alt="Logo produk Kartu Kredit Bank BRI berwarna biru dengan latar belakang putih" class="mb-4" height="120" src="https://storage.googleapis.com/a1aa/image/41e95e27-1004-46a0-0ec2-861e990f6987.jpg" width="120"/>
-      <h3 class="font-semibold text-[#003366] mb-2">
-       Kartu Kredit
-      </h3>
-      <p class="text-gray-600 text-sm">
-       Kemudahan bertransaksi dengan berbagai promo menarik.
-      </p>
-     </a>
-    </div>
-   </div>
-  </section>
-  <!-- Berita Terbaru -->
-  <section class="max-w-7xl mx-auto px-4 py-12">
-   <h2 class="text-3xl font-extrabold text-[#003366] mb-8 text-center">
-    Berita Terbaru
+  <!-- Features Section -->
+  <section class="max-w-7xl mx-auto px-4 py-16">
+   <h2 class="text-3xl font-extrabold text-center text-[#0033A0] mb-12">
+    Layanan Unggulan BCA
    </h2>
-   <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-    <a class="block bg-white rounded-lg shadow hover:shadow-lg transition overflow-hidden" href="https://bri.co.id/id/berita/2024/06/01/peluncuran-aplikasi-bri-mobile" rel="noopener" target="_blank">
-     <img alt="Foto peluncuran aplikasi BRI Mobile dengan latar belakang biru dan logo BRI" class="w-full object-cover h-48" height="220" src="https://storage.googleapis.com/a1aa/image/3994a58b-0341-470a-eda3-566b31f7e7d3.jpg" width="400"/>
-     <div class="p-4">
-      <h3 class="font-semibold text-[#003366] mb-2">
-       Peluncuran Aplikasi BRI Mobile Terbaru
+   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
+    <div class="flex flex-col items-center text-center space-y-4">
+     <a href="https://www.bca.co.id/bca-mobile" target="_blank" rel="noopener noreferrer" class="block">
+      <img alt="Ikon aplikasi mobile banking BCA berwarna biru dengan latar putih" class="w-20 h-20 mx-auto" height="80" loading="lazy" src="https://storage.googleapis.com/a1aa/image/9703feba-696f-4682-1667-b52d74357977.jpg" width="80"/>
+      <h3 class="font-semibold text-lg text-[#0033A0] mt-4">
+       BCA Mobile
       </h3>
-      <p class="text-gray-600 text-sm">
-       BRI meluncurkan aplikasi mobile banking terbaru dengan fitur lebih lengkap dan mudah digunakan.
-      </p>
-      <time class="text-xs text-gray-400 block mt-2" datetime="2024-06-01">
-       1 Juni 2024
-      </time>
-     </div>
-    </a>
-    <a class="block bg-white rounded-lg shadow hover:shadow-lg transition overflow-hidden" href="https://bri.co.id/id/berita/2024/05/15/dukungan-umkm" rel="noopener" target="_blank">
-     <img alt="Foto pelaku UMKM menerima dukungan pembiayaan dari Bank BRI dengan latar belakang biru" class="w-full object-cover h-48" height="220" src="https://storage.googleapis.com/a1aa/image/4e30d1e9-1da7-4462-1a45-b9162b766609.jpg" width="400"/>
-     <div class="p-4">
-      <h3 class="font-semibold text-[#003366] mb-2">
-       Dukungan Pembiayaan untuk UMKM
+     </a>
+     <p class="text-gray-600 text-sm max-w-xs">
+      Akses perbankan kapan saja dan di mana saja dengan aplikasi BCA Mobile.
+     </p>
+    </div>
+    <div class="flex flex-col items-center text-center space-y-4">
+     <a href="https://www.klikbca.com" target="_blank" rel="noopener noreferrer" class="block">
+      <img alt="Ikon layanan KlikBCA berwarna biru dengan latar putih" class="w-20 h-20 mx-auto" height="80" loading="lazy" src="https://storage.googleapis.com/a1aa/image/8ab5db5b-ed1a-4cd5-771f-06ac6062c051.jpg" width="80"/>
+      <h3 class="font-semibold text-lg text-[#0033A0] mt-4">
+       KlikBCA
       </h3>
-      <p class="text-gray-600 text-sm">
-       BRI terus memperkuat dukungan pembiayaan untuk pelaku UMKM di seluruh Indonesia.
-      </p>
-      <time class="text-xs text-gray-400 block mt-2" datetime="2024-05-15">
-       15 Mei 2024
-      </time>
-     </div>
-    </a>
-    <a class="block bg-white rounded-lg shadow hover:shadow-lg transition overflow-hidden" href="https://bri.co.id/id/berita/2024/04/20/inovasi-digital" rel="noopener" target="_blank">
-     <img alt="Ilustrasi inovasi digital Bank BRI dengan latar belakang biru dan ikon teknologi" class="w-full object-cover h-48" height="220" src="https://storage.googleapis.com/a1aa/image/1825a57f-847d-403f-8734-fbe1e9ceffe8.jpg" width="400"/>
-     <div class="p-4">
-      <h3 class="font-semibold text-[#003366] mb-2">
-       Inovasi Digital Bank BRI
+     </a>
+     <p class="text-gray-600 text-sm max-w-xs">
+      Layanan internet banking BCA untuk transaksi bisnis dan personal.
+     </p>
+    </div>
+    <div class="flex flex-col items-center text-center space-y-4">
+     <a href="https://www.bca.co.id/halo-bca" target="_blank" rel="noopener noreferrer" class="block">
+      <img alt="Ikon layanan Halo BCA berwarna biru dengan latar putih" class="w-20 h-20 mx-auto" height="80" loading="lazy" src="https://storage.googleapis.com/a1aa/image/3c078b20-36c0-40cd-cccd-ae8cec232a02.jpg" width="80"/>
+      <h3 class="font-semibold text-lg text-[#0033A0] mt-4">
+       Halo BCA
       </h3>
-      <p class="text-gray-600 text-sm">
-       BRI menghadirkan inovasi digital terbaru untuk meningkatkan layanan nasabah.
+     </a>
+     <p class="text-gray-600 text-sm max-w-xs">
+      Layanan call center 24 jam untuk bantuan dan informasi perbankan.
+     </p>
+    </div>
+    <div class="flex flex-col items-center text-center space-y-4">
+     <a href="https://www.bca.co.id/atm" target="_blank" rel="noopener noreferrer" class="block">
+      <img alt="Ikon mesin ATM BCA berwarna biru dengan latar putih" class="w-20 h-20 mx-auto" height="80" loading="lazy" src="https://storage.googleapis.com/a1aa/image/4c930e31-3f5f-4104-2492-9303574765e5.jpg" width="80"/>
+      <h3 class="font-semibold text-lg text-[#0033A0] mt-4">
+       ATM BCA
+      </h3>
+     </a>
+     <p class="text-gray-600 text-sm max-w-xs">
+      Jaringan ATM luas untuk kemudahan tarik tunai dan transaksi lainnya.
+     </p>
+    </div>
+   </div>
+  </section>
+  <!-- Products Section -->
+  <section class="bg-gray-50 py-16">
+   <div class="max-w-7xl mx-auto px-4">
+    <h2 class="text-3xl font-extrabold text-center text-[#0033A0] mb-12">
+     Produk &amp; Layanan
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+     <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-6 flex flex-col">
+      <img alt="Gambar ilustrasi produk tabungan BCA dengan kartu debit dan uang" class="rounded-md mb-4" height="220" loading="lazy" src="https://storage.googleapis.com/a1aa/image/ebe70970-d5e6-4632-b3ee-7a8333f6da85.jpg" width="400"/>
+      <h3 class="text-xl font-semibold text-[#0033A0] mb-2">
+       Tabungan BCA
+      </h3>
+      <p class="text-gray-700 flex-grow">
+       Beragam pilihan tabungan sesuai kebutuhan Anda dengan bunga kompetitif dan kemudahan akses.
       </p>
-      <time class="text-xs text-gray-400 block mt-2" datetime="2024-04-20">
-       20 April 2024
-      </time>
+      <a class="mt-4 inline-block text-[#0033A0] font-semibold hover:underline" href="https://www.bca.co.id/tabungan" target="_blank" rel="noopener noreferrer">
+       Selengkapnya →
+      </a>
      </div>
-    </a>
+     <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-6 flex flex-col">
+      <img alt="Gambar ilustrasi produk kredit BCA dengan rumah dan mobil" class="rounded-md mb-4" height="220" loading="lazy" src="https://storage.googleapis.com/a1aa/image/62bb353a-df5a-4f7e-388d-76c196ecca67.jpg" width="400"/>
+      <h3 class="text-xl font-semibold text-[#0033A0] mb-2">
+       Kredit BCA
+      </h3>
+      <p class="text-gray-700 flex-grow">
+       Solusi kredit untuk kebutuhan rumah, kendaraan, dan modal usaha dengan proses mudah dan cepat.
+      </p>
+      <a class="mt-4 inline-block text-[#0033A0] font-semibold hover:underline" href="https://www.bca.co.id/kredit" target="_blank" rel="noopener noreferrer">
+       Selengkapnya →
+      </a>
+     </div>
+     <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-6 flex flex-col">
+      <img alt="Gambar ilustrasi produk investasi BCA dengan grafik naik dan uang" class="rounded-md mb-4" height="220" loading="lazy" src="https://storage.googleapis.com/a1aa/image/4261898a-e9d6-4e48-91dc-17673cd716e4.jpg" width="400"/>
+      <h3 class="text-xl font-semibold text-[#0033A0] mb-2">
+       Investasi BCA
+      </h3>
+      <p class="text-gray-700 flex-grow">
+       Pilihan produk investasi yang aman dan menguntungkan untuk masa depan finansial Anda.
+      </p>
+      <a class="mt-4 inline-block text-[#0033A0] font-semibold hover:underline" href="https://www.bca.co.id/investasi" target="_blank" rel="noopener noreferrer">
+       Selengkapnya →
+      </a>
+     </div>
+    </div>
+   </div>
+  </section>
+  <!-- Digital Banking Section -->
+  <section class="max-w-7xl mx-auto px-4 py-16">
+   <h2 class="text-3xl font-extrabold text-center text-[#0033A0] mb-12">
+    Digital Banking BCA
+   </h2>
+   <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+    <div class="bg-white rounded-lg shadow p-6 flex flex-col items-center text-center">
+     <a href="https://www.bca.co.id/bca-mobile" target="_blank" rel="noopener noreferrer" class="block">
+      <img alt="Ikon aplikasi BCA Mobile berwarna biru dengan latar putih" class="mb-4 mx-auto" height="120" loading="lazy" src="https://storage.googleapis.com/a1aa/image/c26b8f85-5c1a-4137-7c01-440df71104c1.jpg" width="120"/>
+      <h3 class="text-xl font-semibold text-[#0033A0] mb-2">
+       BCA Mobile
+      </h3>
+     </a>
+     <p class="text-gray-700">
+      Aplikasi mobile banking lengkap dengan fitur transfer, pembayaran, dan pembukaan rekening.
+     </p>
+     <a class="mt-4 text-[#0033A0] font-semibold hover:underline" href="https://www.bca.co.id/bca-mobile" target="_blank" rel="noopener noreferrer">
+      Download Sekarang →
+     </a>
+    </div>
+    <div class="bg-white rounded-lg shadow p-6 flex flex-col items-center text-center">
+     <a href="https://www.klikbca.com" target="_blank" rel="noopener noreferrer" class="block">
+      <img alt="Ikon layanan KlikBCA berwarna biru dengan latar putih" class="mb-4 mx-auto" height="120" loading="lazy" src="https://storage.googleapis.com/a1aa/image/8ab5db5b-ed1a-4cd5-771f-06ac6062c051.jpg" width="120"/>
+      <h3 class="text-xl font-semibold text-[#0033A0] mb-2">
+       KlikBCA
+      </h3>
+     </a>
+     <p class="text-gray-700">
+      Internet banking BCA untuk transaksi bisnis dan personal dengan keamanan tinggi.
+     </p>
+     <a class="mt-4 text-[#0033A0] font-semibold hover:underline" href="https://www.klikbca.com/authentication.do" target="_blank" rel="noopener noreferrer">
+      Login KlikBCA →
+     </a>
+    </div>
+    <div class="bg-white rounded-lg shadow p-6 flex flex-col items-center text-center">
+     <a href="https://www.bca.co.id/halo-bca" target="_blank" rel="noopener noreferrer" class="block">
+      <img alt="Ikon layanan Halo BCA berwarna biru dengan latar putih" class="mb-4 mx-auto" height="120" loading="lazy" src="https://storage.googleapis.com/a1aa/image/3c078b20-36c0-40cd-cccd-ae8cec232a02.jpg" width="120"/>
+      <h3 class="text-xl font-semibold text-[#0033A0] mb-2">
+       Halo BCA
+      </h3>
+     </a>
+     <p class="text-gray-700">
+      Layanan call center 24 jam siap membantu kebutuhan dan informasi perbankan Anda.
+     </p>
+     <a class="mt-4 text-[#0033A0] font-semibold hover:underline" href="https://www.bca.co.id/halo-bca" target="_blank" rel="noopener noreferrer">
+      Hubungi Kami →
+     </a>
+    </div>
+   </div>
+  </section>
+  <!-- News & Updates Section -->
+  <section class="bg-[#0033A0] text-white py-16">
+   <div class="max-w-7xl mx-auto px-4">
+    <h2 class="text-3xl font-extrabold text-center mb-12">
+     Berita &amp; Pengumuman
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+     <article class="bg-[#0046c3] rounded-lg overflow-hidden shadow-lg hover:bg-[#002d80] transition">
+      <a href="https://www.bca.co.id/berita/pengumuman-penting-mei-2025" target="_blank" rel="noopener noreferrer">
+       <img alt="Gambar ilustrasi pengumuman resmi BCA bulan Mei 2025 dengan latar biru dan logo BCA" class="w-full h-48 object-cover" height="220" loading="lazy" src="https://storage.googleapis.com/a1aa/image/2185e420-becf-444b-e461-d08c2824a7c3.jpg" width="400"/>
+       <div class="p-6">
+        <h3 class="font-semibold text-xl mb-2">
+         Pengumuman Penting BCA Mei 2025
+        </h3>
+        <p class="text-sm mb-4">
+         Informasi terbaru mengenai layanan dan kebijakan BCA untuk meningkatkan kenyamanan nasabah.
+        </p>
+        <span class="text-yellow-400 font-semibold hover:underline">
+         Selengkapnya →
+        </span>
+       </div>
+      </a>
+     </article>
+     <article class="bg-[#0046c3] rounded-lg overflow-hidden shadow-lg hover:bg-[#002d80] transition">
+      <a href="https://www.bca.co.id/berita/promo-menarik-2025" target="_blank" rel="noopener noreferrer">
+       <img alt="Gambar ilustrasi promo dan diskon BCA terbaru tahun 2025 dengan latar biru dan ikon hadiah" class="w-full h-48 object-cover" height="220" loading="lazy" src="https://storage.googleapis.com/a1aa/image/4d25e028-dad6-4432-fb6c-722906a53e8e.jpg" width="400"/>
+       <div class="p-6">
+        <h3 class="font-semibold text-xl mb-2">
+         Promo Menarik BCA Tahun 2025
+        </h3>
+        <p class="text-sm mb-4">
+         Nikmati berbagai promo dan diskon eksklusif dari BCA untuk nasabah setia kami.
+        </p>
+        <span class="text-yellow-400 font-semibold hover:underline">
+         Selengkapnya →
+        </span>
+       </div>
+      </a>
+     </article>
+     <article class="bg-[#0046c3] rounded-lg overflow-hidden shadow-lg hover:bg-[#002d80] transition">
+      <a href="https://www.bca.co.id/berita/inovasi-digital-2025" target="_blank" rel="noopener noreferrer">
+       <img alt="Gambar ilustrasi teknologi digital terbaru BCA dengan latar biru dan ikon teknologi" class="w-full h-48 object-cover" height="220" loading="lazy" src="https://storage.googleapis.com/a1aa/image/8d69f49f-4f87-41ea-45a7-7ec645097067.jpg" width="400"/>
+       <div class="p-6">
+        <h3 class="font-semibold text-xl mb-2">
+         Inovasi Digital BCA 2025
+        </h3>
+        <p class="text-sm mb-4">
+         BCA terus berinovasi menghadirkan teknologi digital terbaru untuk kemudahan transaksi Anda.
+        </p>
+        <span class="text-yellow-400 font-semibold hover:underline">
+         Selengkapnya →
+        </span>
+       </div>
+      </a>
+     </article>
+    </div>
    </div>
   </section>
   <!-- Footer -->
-  <footer class="bg-[#003366] text-white">
-   <div class="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
+  <footer class="bg-[#0033A0] text-white py-12">
+   <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-10">
     <div>
-     <img alt="Logo Bank BRI berwarna putih dengan latar belakang biru gelap" class="mb-4" height="50" src="https://storage.googleapis.com/a1aa/image/457acf6c-cc5f-469c-1342-aeb5c95429a4.jpg" width="150"/>
+     <a href="https://www.bca.co.id" target="_blank" rel="noopener noreferrer">
+      <img alt="Logo Bank Central Asia BCA warna putih dengan latar biru" class="mb-6" height="40" loading="lazy" src="https://storage.googleapis.com/a1aa/image/9cf7acbb-edf7-4ce1-783c-9314eaa4ca1c.jpg" width="120"/>
+     </a>
      <p class="text-sm max-w-xs">
-      Bank Rakyat Indonesia (BRI) adalah bank terbesar di Indonesia yang melayani berbagai kebutuhan perbankan masyarakat dengan inovasi dan teknologi terkini.
+      Bank Central Asia (BCA) adalah bank swasta terbesar di Indonesia yang menyediakan layanan perbankan lengkap dan terpercaya.
      </p>
     </div>
     <div>
-     <h3 class="font-semibold mb-4">
+     <h4 class="font-semibold text-lg mb-4">
       Produk &amp; Layanan
-     </h3>
+     </h4>
      <ul class="space-y-2 text-sm">
       <li>
-       <a class="hover:underline" href="https://bri.co.id/id/produk/kredit-usaha-rakyat" rel="noopener" target="_blank">
-        Kredit Usaha Rakyat (KUR)
+       <a class="hover:underline" href="https://www.bca.co.id/tabungan" target="_blank" rel="noopener noreferrer">
+        Tabungan
        </a>
       </li>
       <li>
-       <a class="hover:underline" href="https://bri.co.id/id/produk/tabungan-bri-simpedes" rel="noopener" target="_blank">
-        Tabungan Simpedes
+       <a class="hover:underline" href="https://www.bca.co.id/kredit" target="_blank" rel="noopener noreferrer">
+        Kredit
        </a>
       </li>
       <li>
-       <a class="hover:underline" href="https://bri.co.id/id/produk/deposito" rel="noopener" target="_blank">
-        Deposito
+       <a class="hover:underline" href="https://www.bca.co.id/investasi" target="_blank" rel="noopener noreferrer">
+        Investasi
        </a>
       </li>
       <li>
-       <a class="hover:underline" href="https://bri.co.id/id/produk/kartu-kredit" rel="noopener" target="_blank">
-        Kartu Kredit
+       <a class="hover:underline" href="https://www.bca.co.id/asuransi" target="_blank" rel="noopener noreferrer">
+        Asuransi
        </a>
       </li>
       <li>
-       <a class="hover:underline" href="https://bri.co.id/id/layanan/internet-banking" rel="noopener" target="_blank">
-        Internet Banking
-       </a>
-      </li>
-      <li>
-       <a class="hover:underline" href="https://bri.co.id/id/layanan/mobile-banking" rel="noopener" target="_blank">
-        Mobile Banking
+       <a class="hover:underline" href="https://www.bca.co.id/e-banking" target="_blank" rel="noopener noreferrer">
+        E-Banking
        </a>
       </li>
      </ul>
     </div>
     <div>
-     <h3 class="font-semibold mb-4">
-      Informasi
-     </h3>
+     <h4 class="font-semibold text-lg mb-4">
+      Bantuan
+     </h4>
      <ul class="space-y-2 text-sm">
       <li>
-       <a class="hover:underline" href="https://bri.co.id/id/berita" rel="noopener" target="_blank">
-        Berita
-       </a>
-      </li>
-      <li>
-       <a class="hover:underline" href="https://bri.co.id/id/tentang-bri" rel="noopener" target="_blank">
-        Tentang BRI
-       </a>
-      </li>
-      <li>
-       <a class="hover:underline" href="https://bri.co.id/id/karir" rel="noopener" target="_blank">
-        Karir
-       </a>
-      </li>
-      <li>
-       <a class="hover:underline" href="https://bri.co.id/id/hubungi-kami" rel="noopener" target="_blank">
-        Hubungi Kami
-       </a>
-      </li>
-      <li>
-       <a class="hover:underline" href="https://bri.co.id/id/faq" rel="noopener" target="_blank">
+       <a class="hover:underline" href="https://www.bca.co.id/faq" target="_blank" rel="noopener noreferrer">
         FAQ
        </a>
       </li>
+      <li>
+       <a class="hover:underline" href="https://www.bca.co.id/kontak-kami" target="_blank" rel="noopener noreferrer">
+        Kontak Kami
+       </a>
+      </li>
+      <li>
+       <a class="hover:underline" href="https://www.bca.co.id/cabang-atm" target="_blank" rel="noopener noreferrer">
+        Cabang &amp; ATM
+       </a>
+      </li>
+      <li>
+       <a class="hover:underline" href="https://www.bca.co.id/keamanan" target="_blank" rel="noopener noreferrer">
+        Keamanan
+       </a>
+      </li>
+      <li>
+       <a class="hover:underline" href="https://www.bca.co.id/syarat-ketentuan" target="_blank" rel="noopener noreferrer">
+        Syarat &amp; Ketentuan
+       </a>
+      </li>
      </ul>
     </div>
     <div>
-     <h3 class="font-semibold mb-4">
+     <h4 class="font-semibold text-lg mb-4">
       Ikuti Kami
-     </h3>
-     <div class="flex space-x-4 text-xl">
-      <a aria-label="Facebook Bank BRI" class="hover:text-yellow-400" href="https://www.facebook.com/BankBRI" rel="noopener" target="_blank">
+     </h4>
+     <div class="flex space-x-6 text-xl">
+      <a aria-label="Facebook" class="hover:text-yellow-400" href="https://www.facebook.com/bca" target="_blank" rel="noopener noreferrer">
        <i class="fab fa-facebook-square">
        </i>
       </a>
-      <a aria-label="Twitter Bank BRI" class="hover:text-yellow-400" href="https://twitter.com/BankBRI" rel="noopener" target="_blank">
+      <a aria-label="Twitter" class="hover:text-yellow-400" href="https://twitter.com/bca" target="_blank" rel="noopener noreferrer">
        <i class="fab fa-twitter-square">
        </i>
       </a>
-      <a aria-label="Instagram Bank BRI" class="hover:text-yellow-400" href="https://www.instagram.com/officialbri" rel="noopener" target="_blank">
-       <i class="fab fa-instagram">
+      <a aria-label="Instagram" class="hover:text-yellow-400" href="https://www.instagram.com/bca" target="_blank" rel="noopener noreferrer">
+       <i class="fab fa-instagram-square">
        </i>
       </a>
-      <a aria-label="YouTube Bank BRI" class="hover:text-yellow-400" href="https://www.youtube.com/user/BankBRI" rel="noopener" target="_blank">
-       <i class="fab fa-youtube-square">
-       </i>
-      </a>
-      <a aria-label="LinkedIn Bank BRI" class="hover:text-yellow-400" href="https://www.linkedin.com/company/bank-bri" rel="noopener" target="_blank">
+      <a aria-label="LinkedIn" class="hover:text-yellow-400" href="https://www.linkedin.com/company/bca" target="_blank" rel="noopener noreferrer">
        <i class="fab fa-linkedin">
        </i>
       </a>
      </div>
      <div class="mt-6 text-sm">
       <p>
-       Call Center:
-       <a class="underline hover:text-yellow-400" href="tel:14017">
-        14017
-       </a>
-      </p>
-      <p>
-       Email:
-       <a class="underline hover:text-yellow-400" href="mailto:contact@bri.co.id">
-        contact@bri.co.id
-       </a>
+       © 2025 Bank Central Asia. All rights reserved.
       </p>
      </div>
     </div>
-   </div>
-   <div class="border-t border-yellow-400 mt-8 py-4 text-center text-xs text-yellow-300">
-    © 2024 Bank Rakyat Indonesia (BRI). Semua hak cipta dilindungi.
    </div>
   </footer>
   <script>
