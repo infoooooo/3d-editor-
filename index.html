@@ -3,7 +3,7 @@
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1" name="viewport"/>
   <title>
-   Tap Tup - GoTube Style YouTube Client
+   YouTube Mirror Search
   </title>
   <script src="https://cdn.tailwindcss.com">
   </script>
@@ -11,396 +11,155 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto&amp;display=swap" rel="stylesheet"/>
   <style>
    body {
-      font-family: "Roboto", sans-serif;
-      background-color: #121212;
-      color: #fff;
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    /* Scrollbar for video list */
-    #video-list::-webkit-scrollbar {
-      height: 6px;
-    }
-    #video-list::-webkit-scrollbar-thumb {
-      background-color: #ff0000;
-      border-radius: 3px;
-    }
-    /* Hide scrollbar for Firefox */
-    #video-list {
-      scrollbar-width: thin;
-      scrollbar-color: #ff0000 transparent;
-    }
-    /* Line clamp for titles */
-    .line-clamp-2 {
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-    /* Bottom nav active icon color */
-    .active-icon {
-      color: #ff0000 !important;
+      font-family: 'Roboto', sans-serif;
     }
   </style>
  </head>
- <body class="flex flex-col h-screen">
-  <!-- Header -->
-  <header class="flex items-center justify-between bg-black px-4 py-2 shadow-md sticky top-0 z-50">
-   <div class="flex items-center space-x-2">
-    <img alt="Red play button logo for Tap Tup app like GoTube" class="w-8 h-6" height="24" src="https://storage.googleapis.com/a1aa/image/c152a1df-8237-4b17-8b25-d277372abd6d.jpg" width="32"/>
-    <h1 class="text-xl font-bold select-none text-white">
-     Tap Tup
-    </h1>
-   </div>
-   <form aria-label="Search videos and channels" class="flex flex-1 max-w-xl mx-4" id="search-form" role="search">
-    <input aria-label="Search videos and channels" class="flex-grow rounded-l-full px-4 py-2 text-black focus:outline-none" id="search-input" placeholder="Search" required="" type="search"/>
-    <button aria-label="Search" class="bg-red-600 hover:bg-red-700 rounded-r-full px-4 flex items-center justify-center" type="submit">
-     <i class="fas fa-search text-white">
+ <body class="bg-gray-100 min-h-screen flex flex-col">
+  <header class="bg-white shadow p-4 flex items-center justify-between">
+   <h1 class="text-2xl font-bold text-red-600 flex items-center">
+    <i class="fab fa-youtube mr-2">
+    </i>
+    YouTube Mirror
+   </h1>
+   <form class="flex w-full max-w-xl ml-4" id="search-form">
+    <input class="flex-grow rounded-l-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-600" id="search-input" placeholder="Search YouTube videos..." required="" type="search"/>
+    <button aria-label="Search" class="bg-red-600 hover:bg-red-700 text-white px-4 rounded-r-md flex items-center justify-center" type="submit">
+     <i class="fas fa-search">
      </i>
     </button>
    </form>
-   <button aria-label="Open menu" class="text-white text-2xl md:hidden focus:outline-none" id="menu-button">
-    <i class="fas fa-bars">
-    </i>
-   </button>
   </header>
-  <!-- Video Player Section -->
-  <section class="bg-black flex-shrink-0 w-full max-w-4xl mx-auto mt-4 rounded-lg overflow-hidden shadow-lg" id="video-player-section">
-   <div class="relative" style="padding-top: 56.25%">
-    <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" class="absolute top-0 left-0 w-full h-full" frameborder="0" id="video-player" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0&amp;rel=0" title="YouTube video player">
-    </iframe>
-   </div>
-   <div class="px-4 py-3">
-    <h2 class="text-white text-lg font-semibold line-clamp-2 mb-1" id="video-title" tabindex="0">
-     Rick Astley - Never Gonna Give You Up (Official Music Video)
+  <main class="flex-grow container mx-auto p-4 flex flex-col md:flex-row gap-6">
+   <section class="md:w-2/3">
+    <div class="aspect-w-16 aspect-h-9 bg-black rounded-md overflow-hidden shadow-md" id="video-player">
+     <img alt="Placeholder image showing a play button on a black background with text 'Search and play YouTube videos'" class="w-full h-full object-cover" height="720" id="video-placeholder" src="https://storage.googleapis.com/a1aa/image/8a9e54d5-2295-49ef-f2c9-e1b4de121aac.jpg" width="1280"/>
+    </div>
+    <h2 class="mt-4 text-xl font-semibold text-gray-800" id="video-title">
     </h2>
-    <p class="text-red-600 font-medium cursor-pointer hover:underline select-none" id="video-channel" tabindex="0">
-     Rick Astley
+    <p class="mt-2 text-gray-600" id="video-description">
     </p>
-   </div>
-  </section>
-  <!-- Video List Section -->
-  <section aria-label="Search results" class="flex-grow overflow-y-auto mt-4 max-w-4xl mx-auto px-2 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 pb-20" id="video-list">
-   <!-- Video cards inserted here dynamically -->
-  </section>
-  <!-- Bottom Navigation -->
-  <nav aria-label="Bottom navigation" class="fixed bottom-0 left-0 right-0 bg-black border-t border-gray-800 flex justify-around items-center h-14 md:hidden z-50" role="navigation">
-   <button aria-label="Home" class="flex flex-col items-center justify-center text-red-600 active-icon focus:outline-none" id="nav-home" tabindex="0">
-    <i class="fas fa-home fa-lg">
-    </i>
-    <span class="text-xs mt-0.5">
-     Home
-    </span>
-   </button>
-   <button aria-label="Trending" class="flex flex-col items-center justify-center text-gray-400 hover:text-red-600 focus:outline-none" id="nav-trending" tabindex="0">
-    <i class="fas fa-fire fa-lg">
-    </i>
-    <span class="text-xs mt-0.5">
-     Trending
-    </span>
-   </button>
-   <button aria-label="Subscriptions" class="flex flex-col items-center justify-center text-gray-400 hover:text-red-600 focus:outline-none" id="nav-subscriptions" tabindex="0">
-    <i class="fas fa-folder fa-lg">
-    </i>
-    <span class="text-xs mt-0.5">
-     Subscriptions
-    </span>
-   </button>
-   <button aria-label="Library" class="flex flex-col items-center justify-center text-gray-400 hover:text-red-600 focus:outline-none" id="nav-library" tabindex="0">
-    <i class="fas fa-book fa-lg">
-    </i>
-    <span class="text-xs mt-0.5">
-     Library
-    </span>
-   </button>
-  </nav>
+   </section>
+   <aside class="md:w-1/3 overflow-y-auto max-h-[70vh]">
+    <h3 class="text-lg font-semibold mb-3 text-gray-800">
+     Search Results
+    </h3>
+    <ul class="space-y-3" id="results-list">
+     <!-- Video results will be appended here -->
+    </ul>
+   </aside>
+  </main>
+  <footer class="bg-white text-center p-4 text-gray-600 text-sm">
+   © 2024 YouTube Mirror. Powered by YouTube Data API.
+  </footer>
   <script>
-   // YouTube Data API v3 key (replace with your own key)
-    const API_KEY = "YOUR_YOUTUBE_DATA_API_KEY";
+   // You must replace 'YOUR_API_KEY_HERE' with your actual YouTube Data API v3 key.
+    // To get an API key, visit https://console.developers.google.com/apis/credentials
+    const API_KEY = 'YOUR_API_KEY_HERE';
 
-    // Elements
-    const searchForm = document.getElementById("search-form");
-    const searchInput = document.getElementById("search-input");
-    const videoList = document.getElementById("video-list");
-    const videoPlayer = document.getElementById("video-player");
-    const videoTitle = document.getElementById("video-title");
-    const videoChannel = document.getElementById("video-channel");
+    const searchForm = document.getElementById('search-form');
+    const searchInput = document.getElementById('search-input');
+    const resultsList = document.getElementById('results-list');
+    const videoPlayer = document.getElementById('video-player');
+    const videoTitle = document.getElementById('video-title');
+    const videoDescription = document.getElementById('video-description');
+    const videoPlaceholder = document.getElementById('video-placeholder');
 
-    // Bottom nav buttons
-    const navHome = document.getElementById("nav-home");
-    const navTrending = document.getElementById("nav-trending");
-    const navSubscriptions = document.getElementById("nav-subscriptions");
-    const navLibrary = document.getElementById("nav-library");
+    // Clear previous results and video info
+    function clearResults() {
+      resultsList.innerHTML = '';
+      videoTitle.textContent = '';
+      videoDescription.textContent = '';
+      videoPlayer.innerHTML = '';
+    }
 
-    // State
-    let currentPageToken = "";
-    let currentQuery = "";
-    let currentMode = "home"; // home, trending, subscriptions, library, search
+    // Create a video list item
+    function createVideoItem(video) {
+      const li = document.createElement('li');
+      li.className = 'flex items-center space-x-3 cursor-pointer hover:bg-gray-200 rounded p-2';
 
-    // Helper: create video card element
-    function createVideoCard(video) {
-      const videoId = video.id.videoId || video.id;
-      const title = video.snippet.title;
-      const channelTitle = video.snippet.channelTitle;
-      const thumbnailUrl = video.snippet.thumbnails.medium.url;
+      const thumbnail = document.createElement('img');
+      thumbnail.src = video.snippet.thumbnails.default.url;
+      thumbnail.alt = `Thumbnail of video titled ${video.snippet.title}`;
+      thumbnail.className = 'w-20 h-12 object-cover rounded';
 
-      const card = document.createElement("div");
-      card.className =
-        "bg-gray-900 rounded-lg overflow-hidden cursor-pointer flex flex-col shadow-md hover:shadow-lg";
+      const title = document.createElement('p');
+      title.textContent = video.snippet.title;
+      title.className = 'text-gray-800 text-sm flex-grow';
 
-      const img = document.createElement("img");
-      img.src = thumbnailUrl;
-      img.alt = `Thumbnail image for video titled ${title}`;
-      img.className = "w-full h-36 object-cover";
+      li.appendChild(thumbnail);
+      li.appendChild(title);
 
-      const content = document.createElement("div");
-      content.className = "p-2 flex flex-col flex-grow";
-
-      const titleEl = document.createElement("h3");
-      titleEl.textContent = title;
-      titleEl.className = "text-white text-sm font-semibold line-clamp-2";
-
-      const channelEl = document.createElement("p");
-      channelEl.textContent = channelTitle;
-      channelEl.className = "text-gray-400 text-xs mt-1";
-
-      content.appendChild(titleEl);
-      content.appendChild(channelEl);
-
-      card.appendChild(img);
-      card.appendChild(content);
-
-      card.addEventListener("click", () => {
-        playVideo(videoId, title, channelTitle);
+      li.addEventListener('click', () => {
+        playVideo(video);
       });
 
-      return card;
+      return li;
     }
 
-    // Play video in player
-    function playVideo(videoId, title, channelTitle) {
-      videoPlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
-      videoTitle.textContent = title;
-      videoChannel.textContent = channelTitle;
-      videoChannel.onclick = () => {
-        currentQuery = `channel:${videoId}`;
-        performSearch(`channel:${videoId}`);
-      };
-      window.scrollTo({ top: 0, behavior: "smooth" });
+    // Play selected video in iframe
+    function playVideo(video) {
+      const videoId = video.id.videoId;
+      videoPlayer.innerHTML = `
+        <iframe
+          width="100%"
+          height="100%"
+          src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0"
+          title="${video.snippet.title}"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      `;
+      videoTitle.textContent = video.snippet.title;
+      videoDescription.textContent = video.snippet.description;
     }
 
-    // Clear active nav button styles
-    function clearActiveNav() {
-      [navHome, navTrending, navSubscriptions, navLibrary].forEach((btn) => {
-        btn.classList.remove("text-red-600", "active-icon");
-        btn.classList.add("text-gray-400");
-      });
-    }
-
-    // Set active nav button style
-    function setActiveNav(button) {
-      clearActiveNav();
-      button.classList.add("text-red-600", "active-icon");
-      button.classList.remove("text-gray-400");
-    }
-
-    // Perform search using YouTube Data API
-    async function performSearch(query) {
-      if (!query) return;
-      currentMode = "search";
-      currentQuery = query;
-      setActiveNav(navHome);
-      videoList.innerHTML =
-        '<p class="col-span-full text-center text-gray-400 mt-10">Loading...</p>';
-
-      let apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&type=video,channel&q=${encodeURIComponent(
-        query
-      )}&key=${API_KEY}`;
-
-      // If searching by channel ID (custom syntax channel:CHANNEL_ID), adjust API call
-      if (query.startsWith("channel:")) {
-        const channelId = query.split(":")[1];
-        apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=24&type=video&channelId=${channelId}&key=${API_KEY}`;
-      }
+    // Fetch videos from YouTube API
+    async function fetchVideos(query) {
+      clearResults();
+      resultsList.innerHTML = `<li class="text-center text-gray-500">Loading...</li>`;
 
       try {
-        const response = await fetch(apiUrl);
+        const response = await fetch(
+          `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=15&type=video&q=${encodeURIComponent(
+            query
+          )}&key=${API_KEY}`
+        );
         const data = await response.json();
 
         if (!data.items || data.items.length === 0) {
-          videoList.innerHTML =
-            '<p class="col-span-full text-center text-gray-400 mt-10">No results found.</p>';
+          resultsList.innerHTML = `<li class="text-center text-gray-500">No videos found for "${query}".</li>`;
+          videoPlayer.innerHTML = `<img src="https://placehold.co/1280x720/png?text=No+videos+found" alt="Placeholder image with text 'No videos found'" class="w-full h-full object-cover rounded-md" />`;
+          videoTitle.textContent = '';
+          videoDescription.textContent = '';
           return;
         }
 
-        videoList.innerHTML = "";
-        data.items.forEach((item) => {
-          // Only show videos (ignore channels in results for simplicity)
-          if (item.id.kind === "youtube#video") {
-            const card = createVideoCard(item);
-            videoList.appendChild(card);
-          }
-        });
-      } catch (error) {
-        videoList.innerHTML =
-          '<p class="col-span-full text-center text-red-600 mt-10">Error loading results.</p>';
-        console.error(error);
-      }
-    }
-
-    // Load trending videos
-    async function loadTrending() {
-      currentMode = "trending";
-      setActiveNav(navTrending);
-      videoList.innerHTML =
-        '<p class="col-span-full text-center text-gray-400 mt-10">Loading trending videos...</p>';
-      const apiUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=24&regionCode=US&key=${API_KEY}`;
-      try {
-        const response = await fetch(apiUrl);
-        const data = await response.json();
-        if (!data.items || data.items.length === 0) {
-          videoList.innerHTML =
-            '<p class="col-span-full text-center text-gray-400 mt-10">No trending videos found.</p>';
-          return;
-        }
-        videoList.innerHTML = "";
+        resultsList.innerHTML = '';
         data.items.forEach((video) => {
-          const item = {
-            id: video.id,
-            snippet: video.snippet,
-          };
-          const card = createVideoCard(item);
-          videoList.appendChild(card);
+          const videoItem = createVideoItem(video);
+          resultsList.appendChild(videoItem);
         });
+
+        // Auto play first video
+        playVideo(data.items[0]);
       } catch (error) {
-        videoList.innerHTML =
-          '<p class="col-span-full text-center text-red-600 mt-10">Error loading trending videos.</p>';
+        resultsList.innerHTML = `<li class="text-center text-red-500">Error fetching videos. Please try again later.</li>`;
+        videoPlayer.innerHTML = `<img src="https://placehold.co/1280x720/png?text=Error+loading+videos" alt="Placeholder image with text 'Error loading videos'" class="w-full h-full object-cover rounded-md" />`;
+        videoTitle.textContent = '';
+        videoDescription.textContent = '';
         console.error(error);
       }
     }
 
-    // Load subscriptions placeholder (since no user auth, show popular channels)
-    async function loadSubscriptions() {
-      currentMode = "subscriptions";
-      setActiveNav(navSubscriptions);
-      videoList.innerHTML =
-        '<p class="col-span-full text-center text-gray-400 mt-10">Loading subscriptions...</p>';
-      // For demo, show popular channels (simulate subscriptions)
-      const popularChannels = [
-        "UC-9-kyTW8ZkZNDHQJ6FgpwQ", // Music
-        "UCq-Fj5jknLsUf-MWSy4_brA", // Gaming
-        "UC295-Dw_tDNtZXFeAPAW6Aw", // News
-        "UCJowOS1R0FnhipXVqEnYU1A", // Movies
-        "UCYfdidRxbB8Qhf0Nx7ioOYw", // Sports
-        "UCOpNcN46UbXVtpKMrmU4Abg", // Tech
-      ];
-      videoList.innerHTML = "";
-      for (const channelId of popularChannels) {
-        try {
-          const response = await fetch(
-            `https://www.googleapis.com/youtube/v3/channels?part=snippet&id=${channelId}&key=${API_KEY}`
-          );
-          const data = await response.json();
-          if (data.items && data.items.length > 0) {
-            const channel = data.items[0];
-            const card = document.createElement("div");
-            card.className =
-              "bg-gray-900 rounded-lg overflow-hidden cursor-pointer flex flex-col shadow-md hover:shadow-lg";
-
-            const img = document.createElement("img");
-            img.src = channel.snippet.thumbnails.medium.url;
-            img.alt = `Channel logo for ${channel.snippet.title}`;
-            img.className = "w-full h-36 object-cover";
-
-            const content = document.createElement("div");
-            content.className = "p-2 flex flex-col flex-grow";
-
-            const titleEl = document.createElement("h3");
-            titleEl.textContent = channel.snippet.title;
-            titleEl.className = "text-white text-sm font-semibold line-clamp-2";
-
-            content.appendChild(titleEl);
-
-            card.appendChild(img);
-            card.appendChild(content);
-
-            card.addEventListener("click", () => {
-              performSearch(`channel:${channelId}`);
-            });
-
-            videoList.appendChild(card);
-          }
-        } catch (error) {
-          console.error("Error loading subscription channel", error);
-        }
-      }
-    }
-
-    // Load library placeholder (simulate history or liked videos)
-    async function loadLibrary() {
-      currentMode = "library";
-      setActiveNav(navLibrary);
-      videoList.innerHTML =
-        '<p class="col-span-full text-center text-gray-400 mt-10">Loading library...</p>';
-      // For demo, show liked videos (hardcoded popular videos)
-      const likedVideoIds = [
-        "3JZ_D3ELwOQ",
-        "kJQP7kiw5Fk",
-        "RgKAFK5djSk",
-        "fRh_vgS2dFE",
-        "OPf0YbXqDm0",
-        "09R8_2nJtjg",
-      ];
-      videoList.innerHTML = "";
-      for (const videoId of likedVideoIds) {
-        try {
-          const response = await fetch(
-            `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${API_KEY}`
-          );
-          const data = await response.json();
-          if (data.items && data.items.length > 0) {
-            const video = data.items[0];
-            const item = {
-              id: video.id,
-              snippet: video.snippet,
-            };
-            const card = createVideoCard(item);
-            videoList.appendChild(card);
-          }
-        } catch (error) {
-          console.error("Error loading library video", error);
-        }
-      }
-    }
-
-    // Event listeners
-    searchForm.addEventListener("submit", (e) => {
+    searchForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const query = searchInput.value.trim();
       if (query) {
-        performSearch(query);
+        fetchVideos(query);
       }
     });
-
-    navHome.addEventListener("click", () => {
-      currentMode = "home";
-      searchInput.value = "";
-      loadTrending();
-    });
-    navTrending.addEventListener("click", () => {
-      loadTrending();
-    });
-    navSubscriptions.addEventListener("click", () => {
-      loadSubscriptions();
-    });
-    navLibrary.addEventListener("click", () => {
-      loadLibrary();
-    });
-
-    // Initialize app with trending videos
-    loadTrending();
   </script>
  </body>
 </html>
