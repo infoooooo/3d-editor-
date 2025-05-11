@@ -1,149 +1,213 @@
-<!DOCTYPE html>
-<html lang="jv">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <title>Penjelasan Eksposisi - Pak Rofiq SMK PGRI 3 Salatiga</title>
+<html class="scroll-smooth" lang="id">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   BANK BRI - Login
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
   <style>
-    /* Reset & base */
-    * {
-      box-sizing: border-box;
-    }
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f0f4f8;
-      color: #333;
-      line-height: 1.6;
-      padding: 1rem;
-      max-width: 350px;
-      margin-left: auto;
-      margin-right: auto;
-      height: 600px;
-      overflow-y: auto;
-      border-radius: 8px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
-      color: #222;
-    }
-    header {
-      text-align: center;
-      padding-bottom: 0.5rem;
-      border-bottom: 2px solid #ffffff66;
-      margin-bottom: 1rem;
-    }
-    header h1 {
-      font-weight: 700;
-      font-size: 1.6rem;
-      color: #004080;
-      margin-bottom: 0.2rem;
-    }
-    header p {
-      font-weight: 600;
-      font-size: 1.1rem;
-      color: #00264d;
-      margin: 0;
-    }
-    main {
-      background: #fff;
-      padding: 1rem 1.2rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.12);
-      color: #1a1a1a;
-      font-size: 0.95rem;
-    }
-    h2 {
-      margin-top: 1rem;
-      margin-bottom: 0.4rem;
-      color: #004080;
-      font-size: 1.3rem;
-      border-left: 4px solid #66a6ff;
-      padding-left: 8px;
-    }
-    p {
-      margin-bottom: 1rem;
-    }
-    ul {
-      margin-left: 1.2rem;
-      margin-bottom: 1rem;
-      color: #333;
-    }
-    li {
-      margin-bottom: 0.4rem;
-    }
-    .example {
-      background: #e7f0fe;
-      border-left: 5px solid #3a7bd5;
-      padding: 0.8rem 1rem;
-      border-radius: 5px;
-      font-style: italic;
-      color: #27496d;
-    }
-    footer {
-      text-align: center;
-      margin-top: 1.2rem;
-      font-size: 0.8rem;
-      color: #004080cc;
-      font-weight: 600;
-    }
-
-    @media (max-width: 400px) {
-      body {
-        margin: 0.5rem;
-        padding: 0.8rem;
-        font-size: 0.9rem;
-      }
-      header h1 {
-        font-size: 1.4rem;
-      }
-      h2 {
-        font-size: 1.1rem;
-      }
+   body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f5f5f5;
     }
   </style>
-</head>
-<body>
-  <header>
-    <h1>Wilujeng Rawuh, Pak Rofiq!</h1>
-    <p>SMK PGRI 3 Salatiga</p>
+ </head>
+ <body class="min-h-screen flex flex-col bg-white">
+  <!-- Header -->
+  <header class="bg-[#003a70] text-white flex items-center justify-between px-6 py-4">
+   <div class="flex items-center space-x-3">
+    <img alt="Logo Bank BRI berwarna biru dan kuning dengan tulisan BRI" class="w-12 h-12 object-contain" height="48" src="https://storage.googleapis.com/a1aa/image/7615811a-999c-4138-f8ed-e48befa07e24.jpg" width="48"/>
+    <h1 class="text-2xl font-bold tracking-wide">
+     BANK BRI
+    </h1>
+   </div>
+   <nav class="hidden md:flex space-x-8 font-semibold text-sm">
+    <a class="hover:underline" href="https://bri.co.id" rel="noopener noreferrer" target="_blank">
+     Beranda
+    </a>
+    <a class="hover:underline" href="https://bri.co.id/personal" rel="noopener noreferrer" target="_blank">
+     Personal
+    </a>
+    <a class="hover:underline" href="https://bri.co.id/bisnis" rel="noopener noreferrer" target="_blank">
+     Bisnis
+    </a>
+    <a class="hover:underline" href="https://bri.co.id/produk" rel="noopener noreferrer" target="_blank">
+     Produk
+    </a>
+    <a class="hover:underline" href="https://bri.co.id/lokasi" rel="noopener noreferrer" target="_blank">
+     Lokasi
+    </a>
+    <a class="hover:underline" href="https://bri.co.id/kontak" rel="noopener noreferrer" target="_blank">
+     Kontak
+    </a>
+   </nav>
+   <button aria-label="Toggle menu" class="md:hidden text-white text-2xl focus:outline-none" id="mobile-menu-button">
+    <i class="fas fa-bars">
+    </i>
+   </button>
   </header>
-
-  <main>
-    <h2>Definisi Eksposisi</h2>
-    <p>
-      Eksposisi iku sawijining jinis tulisan utawa wacana sing gunane kanggo nerangake lan nyritakake informasi kanthi cetha lan gamblang marang pamaos. Tujuane yaiku supaya pamaos bisa paham karo isi utawa gagasan sing dijlentrehake kanthi bener tanpa ana keraguan.
-    </p>
-
-    <h2>Penjelasan Lengkap</h2>
-    <p>
-      Eksposisi nduweni ciri-ciri utama yaiku:
-    </p>
-    <ul>
-      <li><strong>Jelas lan Terang:</strong> Informasi disampaikan kanthi rinci supaya ora mbingungake pembaca.</li>
-      <li><strong>Objektif:</strong> Isi eksposisi adhedhasar fakta lan bukti, ora adhedhasar pendapat subjektif.</li>
-      <li><strong>Rapi lan Sistematis:</strong> Paparan materi dumadi saka pendahuluan, isi, lan kesimpulan sing runtut.</li>
-      <li><strong>Informasi Lengkap:</strong> Nerangake babagan topik sing dijlentrehake tanpa ana sing dilewihi utawa dikurangi.</li>
-    </ul>
-    <p>
-      Ing sekolah utawa ing kehidpan saben dinane, eksposisi kerep ditemokake nalika kita nggawe tulisan ilmiah, laporan, utawa artikel sing tujuane ngajari pamaos supaya ngerti luwih jero babagan sawijining topik.
-    </p>
-
-    <h2>Contoh Eksposisi (Bahasa Jawa)</h2>
-    <div class="example">
-      <p>"Tembung 'ngekspos' ateges nerangake utawa njlentrehake suatu perkara kanthi cetha. Tulisan eksposisi minangka tulisan sing isi utamane nerangake bab tartamtu supaya para pamaos padha ngerti. Contone, nalika kita nerangake carane nandur pari, mula tulisan bakal nerangake langkah-langkah sing kudu ditindakake kanthi runtut lan rinci supaya para pamaos bisa nglakoni kanthi bener."</p>
+  <!-- Mobile Menu -->
+  <nav class="hidden bg-[#003a70] text-white flex flex-col space-y-4 px-6 py-4 md:hidden" id="mobile-menu">
+   <a class="hover:underline" href="https://bri.co.id" rel="noopener noreferrer" target="_blank">
+    Beranda
+   </a>
+   <a class="hover:underline" href="https://bri.co.id/personal" rel="noopener noreferrer" target="_blank">
+    Personal
+   </a>
+   <a class="hover:underline" href="https://bri.co.id/bisnis" rel="noopener noreferrer" target="_blank">
+    Bisnis
+   </a>
+   <a class="hover:underline" href="https://bri.co.id/produk" rel="noopener noreferrer" target="_blank">
+    Produk
+   </a>
+   <a class="hover:underline" href="https://bri.co.id/lokasi" rel="noopener noreferrer" target="_blank">
+    Lokasi
+   </a>
+   <a class="hover:underline" href="https://bri.co.id/kontak" rel="noopener noreferrer" target="_blank">
+    Kontak
+   </a>
+  </nav>
+  <!-- Main Content -->
+  <main class="flex-grow flex flex-col md:flex-row max-w-7xl mx-auto my-10 px-6 md:px-12 gap-12">
+   <!-- Left side: Login form -->
+   <section class="md:w-1/2 bg-[#f0f4f8] rounded-lg shadow-lg p-8">
+    <h2 class="text-3xl font-bold text-[#003a70] mb-6">
+     Login Internet Banking BRI
+    </h2>
+    <form action="https://ib.bri.co.id/ib-bri/login.htm" class="space-y-6" id="login-form" method="GET" target="_blank">
+     <div>
+      <label class="block text-sm font-semibold text-gray-700 mb-1" for="userId">
+       User ID
+      </label>
+      <input autocomplete="username" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#003a70]" id="userId" name="userId" placeholder="Masukkan User ID Anda" required="" type="text"/>
+     </div>
+     <div>
+      <label class="block text-sm font-semibold text-gray-700 mb-1" for="password">
+       Password
+      </label>
+      <input autocomplete="current-password" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#003a70]" id="password" name="password" placeholder="Masukkan Password Anda" required="" type="password"/>
+     </div>
+     <div class="flex items-center justify-between">
+      <div class="flex items-center">
+       <input class="h-4 w-4 text-[#003a70] focus:ring-[#003a70] border-gray-300 rounded" id="rememberMe" name="rememberMe" type="checkbox"/>
+       <label class="ml-2 block text-sm text-gray-700" for="rememberMe">
+        Ingat Saya
+       </label>
+      </div>
+      <a class="text-sm text-[#003a70] hover:underline" href="https://ib.bri.co.id/ib-bri/forgotPassword.htm" rel="noopener noreferrer" target="_blank">
+       Lupa Password?
+      </a>
+     </div>
+     <button class="w-full bg-[#003a70] text-white font-semibold py-3 rounded-md hover:bg-[#002a50] transition" type="submit">
+      Login
+     </button>
+    </form>
+    <div class="mt-6 text-center text-sm text-gray-600">
+     Belum punya akun?
+     <a class="text-[#003a70] font-semibold hover:underline" href="https://ib.bri.co.id/ib-bri/register.htm" rel="noopener noreferrer" target="_blank">
+      Daftar Sekarang
+     </a>
     </div>
-
-    <h2>Contoh Kalimat Eksposisi liyane</h2>
-    <ul>
-      <li><em>"Air iku sumber urip kanggo kabeh makhluk. Tanpa ana banyu, manungsa, kewan, lan tetanduran ora bisa urip kanthi becik."</em></li>
-      <li><em>"Kabersihan lingkungan iku penting supaya ora gampang kena penyakit lan nggawe kahanan luwih nyaman kanggo urip."</em></li>
-    </ul>
+   </section>
+   <!-- Right side: Info & promo -->
+   <section class="md:w-1/2 flex flex-col space-y-8">
+    <div class="bg-[#003a70] rounded-lg p-6 text-white shadow-lg">
+     <h3 class="text-xl font-bold mb-3">
+      Informasi Penting
+     </h3>
+     <ul class="list-disc list-inside space-y-2 text-sm leading-relaxed">
+      <li>
+       Pastikan Anda selalu mengakses Internet Banking melalui situs resmi
+       <a class="underline" href="https://ib.bri.co.id" rel="noopener noreferrer" target="_blank">
+        https://ib.bri.co.id
+       </a>
+      </li>
+      <li>
+       Jangan pernah memberikan User ID dan Password Anda kepada siapapun.
+      </li>
+      <li>
+       Gunakan fitur logout setelah selesai menggunakan Internet Banking.
+      </li>
+      <li>
+       Hubungi call center BRI 14017 atau 1500017 jika menemukan aktivitas mencurigakan.
+      </li>
+     </ul>
+    </div>
+    <div class="bg-[#f0f4f8] rounded-lg p-6 shadow-lg">
+     <h3 class="text-xl font-bold mb-4 text-[#003a70]">
+      Promo Terbaru BRI
+     </h3>
+     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="flex flex-col items-center bg-white rounded-lg shadow p-4">
+       <img alt="Gambar promosi kartu kredit BRI dengan latar belakang biru dan ilustrasi kartu kredit" class="mb-3 rounded" height="100" src="https://storage.googleapis.com/a1aa/image/0cdaa0ac-5399-404d-e759-9f339b2b6c54.jpg" width="150"/>
+       <h4 class="font-semibold text-[#003a70]">
+        Diskon Kartu Kredit
+       </h4>
+       <p class="text-xs text-gray-600 text-center">
+        Nikmati diskon hingga 20% di merchant pilihan dengan kartu kredit BRI.
+       </p>
+      </div>
+      <div class="flex flex-col items-center bg-white rounded-lg shadow p-4">
+       <img alt="Gambar promosi tabungan BRI dengan ilustrasi celengan dan koin emas" class="mb-3 rounded" height="100" src="https://storage.googleapis.com/a1aa/image/642bfe32-3858-43eb-7ff0-84178137dcc3.jpg" width="150"/>
+       <h4 class="font-semibold text-[#003a70]">
+        Bonus Tabungan
+       </h4>
+       <p class="text-xs text-gray-600 text-center">
+        Buka tabungan baru dan dapatkan bonus saldo hingga Rp100.000.
+       </p>
+      </div>
+      <div class="flex flex-col items-center bg-white rounded-lg shadow p-4">
+       <img alt="Gambar promosi pinjaman BRI dengan ilustrasi uang dan grafik naik" class="mb-3 rounded" height="100" src="https://storage.googleapis.com/a1aa/image/42986040-9487-4978-6ee8-bfbf1803ee9e.jpg" width="150"/>
+       <h4 class="font-semibold text-[#003a70]">
+        Pinjaman Mudah
+       </h4>
+       <p class="text-xs text-gray-600 text-center">
+        Ajukan pinjaman dengan bunga rendah dan proses cepat.
+       </p>
+      </div>
+      <div class="flex flex-col items-center bg-white rounded-lg shadow p-4">
+       <img alt="Gambar promosi aplikasi BRI Mobile dengan ilustrasi smartphone dan logo BRI" class="mb-3 rounded" height="100" src="https://storage.googleapis.com/a1aa/image/62e3b01f-7fbe-45ed-c1d5-b52808d18275.jpg" width="150"/>
+       <h4 class="font-semibold text-[#003a70]">
+        BRI Mobile
+       </h4>
+       <p class="text-xs text-gray-600 text-center">
+        Nikmati kemudahan transaksi kapan saja dengan aplikasi BRI Mobile.
+       </p>
+      </div>
+     </div>
+    </div>
+   </section>
   </main>
-
-  <footer>
-    &copy; 2024 SMK PGRI 3 Salatiga - Presentasi Eksposisi Basa Jawa
+  <!-- Footer -->
+  <footer class="bg-[#003a70] text-white py-6 mt-auto">
+   <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-sm">
+    <p>
+     © 2024 Bank Rakyat Indonesia (BRI). All rights reserved.
+    </p>
+    <div class="flex space-x-6 mt-4 md:mt-0">
+     <a class="hover:underline" href="https://bri.co.id/kebijakan-privasi" rel="noopener noreferrer" target="_blank">
+      Kebijakan Privasi
+     </a>
+     <a class="hover:underline" href="https://bri.co.id/syarat-dan-ketentuan" rel="noopener noreferrer" target="_blank">
+      Syarat &amp; Ketentuan
+     </a>
+     <a class="hover:underline" href="https://bri.co.id/kontak" rel="noopener noreferrer" target="_blank">
+      Kontak
+     </a>
+    </div>
+   </div>
   </footer>
-</body>
+  <script>
+   const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    mobileMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  </script>
+ </body>
 </html>
-</content>
-</create_file>
