@@ -1,213 +1,29 @@
-<html class="scroll-smooth" lang="id">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1" name="viewport"/>
-  <title>
-   BANK BRI - Login
-  </title>
-  <script src="https://cdn.tailwindcss.com">
-  </script>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-  <style>
-   body {
-      font-family: 'Roboto', sans-serif;
-      background-color: #f5f5f5;
-    }
-  </style>
- </head>
- <body class="min-h-screen flex flex-col bg-white">
-  <!-- Header -->
-  <header class="bg-[#003a70] text-white flex items-center justify-between px-6 py-4">
-   <div class="flex items-center space-x-3">
-    <img alt="Logo Bank BRI berwarna biru dan kuning dengan tulisan BRI" class="w-12 h-12 object-contain" height="48" src="https://storage.googleapis.com/a1aa/image/7615811a-999c-4138-f8ed-e48befa07e24.jpg" width="48"/>
-    <h1 class="text-2xl font-bold tracking-wide">
-     BANK BRI
-    </h1>
-   </div>
-   <nav class="hidden md:flex space-x-8 font-semibold text-sm">
-    <a class="hover:underline" href="https://bri.co.id" rel="noopener noreferrer" target="_blank">
-     Beranda
-    </a>
-    <a class="hover:underline" href="https://bri.co.id/personal" rel="noopener noreferrer" target="_blank">
-     Personal
-    </a>
-    <a class="hover:underline" href="https://bri.co.id/bisnis" rel="noopener noreferrer" target="_blank">
-     Bisnis
-    </a>
-    <a class="hover:underline" href="https://bri.co.id/produk" rel="noopener noreferrer" target="_blank">
-     Produk
-    </a>
-    <a class="hover:underline" href="https://bri.co.id/lokasi" rel="noopener noreferrer" target="_blank">
-     Lokasi
-    </a>
-    <a class="hover:underline" href="https://bri.co.id/kontak" rel="noopener noreferrer" target="_blank">
-     Kontak
-    </a>
-   </nav>
-   <button aria-label="Toggle menu" class="md:hidden text-white text-2xl focus:outline-none" id="mobile-menu-button">
-    <i class="fas fa-bars">
-    </i>
-   </button>
-  </header>
-  <!-- Mobile Menu -->
-  <nav class="hidden bg-[#003a70] text-white flex flex-col space-y-4 px-6 py-4 md:hidden" id="mobile-menu">
-   <a class="hover:underline" href="https://bri.co.id" rel="noopener noreferrer" target="_blank">
-    Beranda
-   </a>
-   <a class="hover:underline" href="https://bri.co.id/personal" rel="noopener noreferrer" target="_blank">
-    Personal
-   </a>
-   <a class="hover:underline" href="https://bri.co.id/bisnis" rel="noopener noreferrer" target="_blank">
-    Bisnis
-   </a>
-   <a class="hover:underline" href="https://bri.co.id/produk" rel="noopener noreferrer" target="_blank">
-    Produk
-   </a>
-   <a class="hover:underline" href="https://bri.co.id/lokasi" rel="noopener noreferrer" target="_blank">
-    Lokasi
-   </a>
-   <a class="hover:underline" href="https://bri.co.id/kontak" rel="noopener noreferrer" target="_blank">
-    Kontak
-   </a>
-  </nav>
-  <!-- Main Content -->
-  <main class="flex-grow flex flex-col md:flex-row max-w-7xl mx-auto my-10 px-6 md:px-12 gap-12">
-   <!-- Left side: Login form -->
-   <section class="md:w-1/2 bg-[#f0f4f8] rounded-lg shadow-lg p-8">
-    <h2 class="text-3xl font-bold text-[#003a70] mb-6">
-     Login Internet Banking BRI
-    </h2>
-    <form action="https://ib.bri.co.id/ib-bri/login.htm" class="space-y-6" id="login-form" method="GET" target="_blank">
-     <div>
-      <label class="block text-sm font-semibold text-gray-700 mb-1" for="userId">
-       User ID
-      </label>
-      <input autocomplete="username" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#003a70]" id="userId" name="userId" placeholder="Masukkan User ID Anda" required="" type="text"/>
-     </div>
-     <div>
-      <label class="block text-sm font-semibold text-gray-700 mb-1" for="password">
-       Password
-      </label>
-      <input autocomplete="current-password" class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#003a70]" id="password" name="password" placeholder="Masukkan Password Anda" required="" type="password"/>
-     </div>
-     <div class="flex items-center justify-between">
-      <div class="flex items-center">
-       <input class="h-4 w-4 text-[#003a70] focus:ring-[#003a70] border-gray-300 rounded" id="rememberMe" name="rememberMe" type="checkbox"/>
-       <label class="ml-2 block text-sm text-gray-700" for="rememberMe">
-        Ingat Saya
-       </label>
-      </div>
-      <a class="text-sm text-[#003a70] hover:underline" href="https://ib.bri.co.id/ib-bri/forgotPassword.htm" rel="noopener noreferrer" target="_blank">
-       Lupa Password?
-      </a>
-     </div>
-     <button class="w-full bg-[#003a70] text-white font-semibold py-3 rounded-md hover:bg-[#002a50] transition" type="submit">
-      Login
-     </button>
-    </form>
-    <div class="mt-6 text-center text-sm text-gray-600">
-     Belum punya akun?
-     <a class="text-[#003a70] font-semibold hover:underline" href="https://ib.bri.co.id/ib-bri/register.htm" rel="noopener noreferrer" target="_blank">
-      Daftar Sekarang
-     </a>
-    </div>
-   </section>
-   <!-- Right side: Info & promo -->
-   <section class="md:w-1/2 flex flex-col space-y-8">
-    <div class="bg-[#003a70] rounded-lg p-6 text-white shadow-lg">
-     <h3 class="text-xl font-bold mb-3">
-      Informasi Penting
-     </h3>
-     <ul class="list-disc list-inside space-y-2 text-sm leading-relaxed">
-      <li>
-       Pastikan Anda selalu mengakses Internet Banking melalui situs resmi
-       <a class="underline" href="https://ib.bri.co.id" rel="noopener noreferrer" target="_blank">
-        https://ib.bri.co.id
-       </a>
-      </li>
-      <li>
-       Jangan pernah memberikan User ID dan Password Anda kepada siapapun.
-      </li>
-      <li>
-       Gunakan fitur logout setelah selesai menggunakan Internet Banking.
-      </li>
-      <li>
-       Hubungi call center BRI 14017 atau 1500017 jika menemukan aktivitas mencurigakan.
-      </li>
-     </ul>
-    </div>
-    <div class="bg-[#f0f4f8] rounded-lg p-6 shadow-lg">
-     <h3 class="text-xl font-bold mb-4 text-[#003a70]">
-      Promo Terbaru BRI
-     </h3>
-     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <div class="flex flex-col items-center bg-white rounded-lg shadow p-4">
-       <img alt="Gambar promosi kartu kredit BRI dengan latar belakang biru dan ilustrasi kartu kredit" class="mb-3 rounded" height="100" src="https://storage.googleapis.com/a1aa/image/0cdaa0ac-5399-404d-e759-9f339b2b6c54.jpg" width="150"/>
-       <h4 class="font-semibold text-[#003a70]">
-        Diskon Kartu Kredit
-       </h4>
-       <p class="text-xs text-gray-600 text-center">
-        Nikmati diskon hingga 20% di merchant pilihan dengan kartu kredit BRI.
-       </p>
-      </div>
-      <div class="flex flex-col items-center bg-white rounded-lg shadow p-4">
-       <img alt="Gambar promosi tabungan BRI dengan ilustrasi celengan dan koin emas" class="mb-3 rounded" height="100" src="https://storage.googleapis.com/a1aa/image/642bfe32-3858-43eb-7ff0-84178137dcc3.jpg" width="150"/>
-       <h4 class="font-semibold text-[#003a70]">
-        Bonus Tabungan
-       </h4>
-       <p class="text-xs text-gray-600 text-center">
-        Buka tabungan baru dan dapatkan bonus saldo hingga Rp100.000.
-       </p>
-      </div>
-      <div class="flex flex-col items-center bg-white rounded-lg shadow p-4">
-       <img alt="Gambar promosi pinjaman BRI dengan ilustrasi uang dan grafik naik" class="mb-3 rounded" height="100" src="https://storage.googleapis.com/a1aa/image/42986040-9487-4978-6ee8-bfbf1803ee9e.jpg" width="150"/>
-       <h4 class="font-semibold text-[#003a70]">
-        Pinjaman Mudah
-       </h4>
-       <p class="text-xs text-gray-600 text-center">
-        Ajukan pinjaman dengan bunga rendah dan proses cepat.
-       </p>
-      </div>
-      <div class="flex flex-col items-center bg-white rounded-lg shadow p-4">
-       <img alt="Gambar promosi aplikasi BRI Mobile dengan ilustrasi smartphone dan logo BRI" class="mb-3 rounded" height="100" src="https://storage.googleapis.com/a1aa/image/62e3b01f-7fbe-45ed-c1d5-b52808d18275.jpg" width="150"/>
-       <h4 class="font-semibold text-[#003a70]">
-        BRI Mobile
-       </h4>
-       <p class="text-xs text-gray-600 text-center">
-        Nikmati kemudahan transaksi kapan saja dengan aplikasi BRI Mobile.
-       </p>
-      </div>
-     </div>
-    </div>
-   </section>
-  </main>
-  <!-- Footer -->
-  <footer class="bg-[#003a70] text-white py-6 mt-auto">
-   <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-sm">
-    <p>
-     © 2024 Bank Rakyat Indonesia (BRI). All rights reserved.
-    </p>
-    <div class="flex space-x-6 mt-4 md:mt-0">
-     <a class="hover:underline" href="https://bri.co.id/kebijakan-privasi" rel="noopener noreferrer" target="_blank">
-      Kebijakan Privasi
-     </a>
-     <a class="hover:underline" href="https://bri.co.id/syarat-dan-ketentuan" rel="noopener noreferrer" target="_blank">
-      Syarat &amp; Ketentuan
-     </a>
-     <a class="hover:underline" href="https://bri.co.id/kontak" rel="noopener noreferrer" target="_blank">
-      Kontak
-     </a>
-    </div>
-   </div>
-  </footer>
-  <script>
-   const mobileMenuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-
-    mobileMenuButton.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-    });
-  </script>
- </body>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Top Up WDP Mobile Legends</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Top Up WDP Mobile Legends</h1>
+  <p>Masukkan ID Pemain untuk beli Weekly Diamond Pass (220 Diamond)!</p>
+  <form id="topup-form">
+    <label for="player-id">ID Pemain (User ID & Zone ID):</label>
+    <input type="text" id="player-id" placeholder="Contoh: 12345678(1234)" required>
+    <br><br>
+    <label for="product">Produk:</label>
+    <select id="product">
+      <option value="WDP">Weekly Diamond Pass (220 Diamond)</option>
+    </select>
+    <br><br>
+    <label for="amount">Jumlah:</label>
+    <input type="number" id="amount" value="1" min="1" max="10" required>
+    <br><br>
+    <button type="submit">Beli Sekarang</button>
+  </form>
+  <p id="status"></p>
+  <script src="script.js"></script>
+</body>
 </html>
